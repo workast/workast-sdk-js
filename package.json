@@ -2,8 +2,10 @@
   "name": "@workast/sdk",
   "version": "0.0.0",
   "description": "Workast SDK for JavaScript in the browser and Node.js",
-  "main": "index.js",
-  "files": ["src"],
+  "main": "src/workast-sdk.js",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "lint": "eslint --format compact .",
     "test": "NODE_ENV=test nyc mocha 'test/**/*.spec.js'",
@@ -28,5 +30,10 @@
   "engines": {
     "node": ">=8.x",
     "npm": ">=5.x"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
   }
 }
