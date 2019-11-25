@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require('./index');
-const workastSdk = require('../src/workast-sdk');
+const workastSdk = require('../src/workast');
 
 describe('Demo', () => {
   it('Should pass', () => {

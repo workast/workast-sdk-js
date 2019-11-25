@@ -2,7 +2,7 @@
   "name": "@workast/sdk",
   "version": "0.0.0",
   "description": "Workast SDK for JavaScript in the browser and Node.js",
-  "main": "src/workast-sdk.js",
+  "main": "src/workast.js",
   "files": [
     "src"
   ],
