@@ -5,6 +5,6 @@ const Workast = require('../src/workast');
 
 describe('Demo', () => {
   it('Should pass', () => {
-    expect(Workast).to.be.a('function');
+    expect(Workast.DEFAULT_MAX_RETRIES).to.equal(0);
   });
 });
