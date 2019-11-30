@@ -1,7 +1,9 @@
 'use strict';
 
-const ConfigurationError = require('./configuration-error');
+const WorkastInvalidParameterError = require('./invalid-parameter-error');
+const WorkastHTTPError = require('./http-error');
 
 module.exports = {
-  ConfigurationError
+  WorkastInvalidParameterError,
+  WorkastHTTPError
 };

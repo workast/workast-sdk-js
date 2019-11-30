@@ -1,6 +1,8 @@
 'use strict';
 
 const isString = require('lodash.isstring');
+const isObject = require('lodash.isobject');
+const get = require('lodash.get');
 
 /**
  * @private
@@ -29,25 +31,31 @@ function isNonEmptyString(value) {
  * @returns {boolean} True if the given value is a valid integer.
  * Otherwise, it returns false.
  * */
-function isValidInteger(value, { min = -Infinity, max = Infinity } = {}) {
+function isInteger(value, { min = -Infinity, max = Infinity } = {}) {
   return Number.isInteger(value) && value >= min && value <= max;
 }
 
 /**
  * @private
  *
- * @description Returns a URL without trailing slashes.
+ * @description Returns a valid URL for the given base URL and path.
  *
- * @param {*} url - The URL to normalize.
+ * @param {string} baseUrl - The base URL.
+ * @param {string} path - The URL path.
  *
- * @returns {*} The URL without trailing slashes.
+ * @returns {string} The complete URL.
  * */
-function normalizeUrl(url) {
-  return isString(url) && url.endsWith('/') ? url.slice(0, -1) : url;
+function normalizeUrl(baseUrl, path) {
+  const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return normalizedBaseUrl.concat(normalizedPath);
 }
 
 module.exports = {
   isNonEmptyString,
-  isValidInteger,
-  normalizeUrl
+  isInteger,
+  normalizeUrl,
+  isString,
+  isObject,
+  get
 };

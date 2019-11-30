@@ -42,6 +42,8 @@
     "nyc": "^14.1.1"
   },
   "dependencies": {
+    "lodash.get": "^4.4.2",
+    "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^4.0.1",
     "superagent": "^5.1.1"
   }
