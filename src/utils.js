@@ -3,6 +3,7 @@
 const isString = require('lodash.isstring');
 const isObject = require('lodash.isobject');
 const get = require('lodash.get');
+const qs = require('qs');
 
 /**
  * @private
@@ -51,10 +52,34 @@ function normalizeUrl(baseUrl, path) {
   return normalizedBaseUrl.concat(normalizedPath);
 }
 
+/**
+ * @private
+ *
+ * @description Gets the multipart representation of an object.
+ *
+ * @param {Object} obj - The source object.
+ *
+ * @returns {Object} The multipart representation of the source object.
+ * */
+function buildMultipartFields(obj) {
+  if (!obj || !Object.keys(obj).length) return {};
+
+  const delimiter = '|&|';
+  const str = qs.stringify(obj, { encode: false, delimiter });
+  const elements = str.split(delimiter);
+
+  return elements.reduce((acc, elem) => {
+    const [key, value] = elem.split('=');
+    acc[key] = value;
+    return acc;
+  }, {});
+}
+
 module.exports = {
   isNonEmptyString,
   isInteger,
   normalizeUrl,
+  buildMultipartFields,
   isString,
   isObject,
   get

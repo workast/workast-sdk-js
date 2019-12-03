@@ -45,6 +45,10 @@ class Workast {
 
   static get IMPERSONATE_USER_HEADER() { return 'W-USER-ID'; }
 
+  static get AUTHENTICATION_SCHEME() { return 'Bearer'; }
+
+  static get DEFAULT_CONTENT_TYPE() { return 'application/json'; }
+
   /**
    * @description Instantiates a Workast SDK.
    *
@@ -165,8 +169,8 @@ class Workast {
 
     const url = utils.normalizeUrl(baseUrl, path);
     const headers = {
-      Accept: 'application/json',
-      Authorization: `Bearer ${this.config.token}`
+      Accept: Workast.DEFAULT_CONTENT_TYPE,
+      Authorization: `${Workast.AUTHENTICATION_SCHEME} ${this.config.token}`
     };
 
     if (impersonatedTeam) {
@@ -177,13 +181,23 @@ class Workast {
     }
 
     try {
-      const res = await request(method, url)
+      let res;
+      const { file, ...data } = body;
+      const req = request(method, url)
         .timeout(timeout)
         .retry(maxRetries)
         .query(query)
-        .send(body)
-        .set(headers)
-        .type('json');
+        .set(headers);
+
+      if (file) {
+        // Make a multipart request.
+        const fields = utils.buildMultipartFields(data);
+        Object.entries(fields).forEach(([key, value]) => req.field(key, value));
+        res = await req.attach('file', file);
+      } else {
+        // Make a json request.
+        res = await req.send(data).type(Workast.DEFAULT_CONTENT_TYPE);
+      }
 
       return Object.keys(res.body).length ? res.body : undefined;
     } catch (err) {
