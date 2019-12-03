@@ -23,8 +23,13 @@ class WorkastHTTPError extends BaseError {
     let statusCode;
 
     if (err.status) {
-      message = utils.get(err, 'response.body.error.message', `Request failed with status code ${err.status}`);
-      type = utils.get(err, 'response.body.error.name', 'ResponseError');
+      const { body } = err.response;
+      message = utils.get(
+        body,
+        'error.message',
+        utils.get(body, 'message', `Request failed with status code ${err.status}`)
+      );
+      type = utils.get(body, 'error.name', 'ResponseError');
       statusCode = err.status;
     } else if (err.timeout) {
       message = `Request timed out after ${err.timeout} ms`;
