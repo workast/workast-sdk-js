@@ -18,8 +18,8 @@ class WorkastHTTPError extends BaseError {
    * @param {Error} err - An error thrown by superagent.
    * */
   constructor(err) {
-    let message;
-    let type;
+    let { message } = err;
+    let type = 'RequestError';
     let statusCode;
 
     if (err.status) {
@@ -34,9 +34,6 @@ class WorkastHTTPError extends BaseError {
     } else if (err.timeout) {
       message = `Request timed out after ${err.timeout} ms`;
       type = 'RequestTimeoutError';
-    } else {
-      message = err.message;
-      type = 'RequestError';
     }
 
     super(message);
