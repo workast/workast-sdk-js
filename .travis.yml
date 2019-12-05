@@ -8,3 +8,12 @@ node_js:
 script:
   - npm run lint
   - npm run coverage
+
+jobs:
+  include:
+    - stage: Release to NPM
+      if: branch = master
+      deploy:
+        provider: npm
+        email: $NPM_AUTH_EMAIL
+        api_key: $NPM_AUTH_TOKEN
