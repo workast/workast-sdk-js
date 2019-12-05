@@ -17,4 +17,5 @@ jobs:
         provider: npm
         email: $NPM_AUTH_EMAIL
         api_key: $NPM_AUTH_TOKEN
+        access: public
         edge: true
