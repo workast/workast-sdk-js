@@ -39,7 +39,9 @@
     "eslint-plugin-import": "^2.18.2",
     "husky": "^3.1.0",
     "mocha": "^6.2.2",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
   "dependencies": {
     "lodash.get": "^4.4.2",
