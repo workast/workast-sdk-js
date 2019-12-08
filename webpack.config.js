@@ -10,6 +10,23 @@ module.exports = {
     libraryTarget: 'umd',
     globalObject: 'this'
   },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: [
+          path.resolve(__dirname, "src")
+        ],
+        exclude: [
+          /node_modules/,
+          /dist/
+        ],
+        use: {
+          loader: "babel-loader"
+        }
+      }
+    ]
+  },
   devtool: 'source-map',
   externals: {
     'lodash.get': {

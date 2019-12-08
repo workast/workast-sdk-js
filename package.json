@@ -33,6 +33,10 @@
     "npm": ">=5.x"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/plugin-transform-runtime": "^7.7.6",
+    "@babel/preset-env": "^7.7.6",
+    "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
     "coveralls": "^3.0.8",
     "eslint": "^6.1.0",
@@ -45,6 +49,7 @@
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
+    "@babel/runtime": "^7.7.6",
     "lodash.get": "^4.4.2",
     "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^4.0.1",
