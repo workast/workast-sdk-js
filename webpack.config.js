@@ -28,31 +28,34 @@ module.exports = {
     ]
   },
   devtool: 'source-map',
-  externals: {
-    'lodash.get': {
-      commonjs: 'lodash.get',
-      commonjs2: 'lodash.get',
-      amd: 'lodash.get'
+  externals: [
+    {
+      'lodash.get': {
+        commonjs: 'lodash.get',
+        commonjs2: 'lodash.get',
+        amd: 'lodash.get'
+      },
+      'lodash.isobject': {
+        commonjs: 'lodash.isobject',
+        commonjs2: 'lodash.isobject',
+        amd: 'lodash.isobject'
+      },
+      'lodash.isstring': {
+        commonjs: 'lodash.isstring',
+        commonjs2: 'lodash.isstring',
+        amd: 'lodash.isstring'
+      },
+      qs: {
+        commonjs: 'qs',
+        commonjs2: 'qs',
+        amd: 'qs'
+      },
+      superagent: {
+        commonjs: 'superagent',
+        commonjs2: 'superagent',
+        amd: 'superagent'
+      }
     },
-    'lodash.isobject': {
-      commonjs: 'lodash.isobject',
-      commonjs2: 'lodash.isobject',
-      amd: 'lodash.isobject'
-    },
-    'lodash.isstring': {
-      commonjs: 'lodash.isstring',
-      commonjs2: 'lodash.isstring',
-      amd: 'lodash.isstring'
-    },
-    qs: {
-      commonjs: 'qs',
-      commonjs2: 'qs',
-      amd: 'qs'
-    },
-    superagent: {
-      commonjs: 'superagent',
-      commonjs2: 'superagent',
-      amd: 'superagent'
-    }
-  }
+    /\@babel\/runtime/
+  ]
 };
