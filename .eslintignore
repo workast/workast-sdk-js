@@ -8,8 +8,5 @@ coverage/**
 # jsdoc output
 out/**
 
-# Webpack config
-webpack.config.js
-
 # Dist folder
 dist/

@@ -2,9 +2,9 @@
   "name": "@workast/sdk",
   "version": "0.1.0",
   "description": "Workast SDK for JavaScript in the browser and Node.js",
-  "main": "src/workast.js",
+  "main": "dist/workast.js",
   "files": [
-    "src"
+    "dist"
   ],
   "scripts": {
     "lint": "eslint --format compact .",
@@ -17,6 +17,7 @@
     "type": "git",
     "url": "git+https://github.com/workast/workast-sdk-js.git"
   },
+  "prepublishOnly": "npm run build",
   "keywords": [
     "workast",
     "project management",
@@ -32,6 +33,10 @@
     "node": ">=8.x",
     "npm": ">=5.x"
   },
+  "browserslist": [
+    "> 0.5%, last 2 versions, Firefox ESR, not dead",
+    "maintained node versions"
+  ],
   "devDependencies": {
     "@babel/core": "^7.7.5",
     "@babel/plugin-transform-runtime": "^7.7.6",

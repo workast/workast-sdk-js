@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 
 module.exports = {
@@ -15,14 +17,14 @@ module.exports = {
       {
         test: /\.js$/,
         include: [
-          path.resolve(__dirname, "src")
+          path.resolve(__dirname, 'src')
         ],
         exclude: [
           /node_modules/,
           /dist/
         ],
         use: {
-          loader: "babel-loader"
+          loader: 'babel-loader'
         }
       }
     ]
@@ -56,6 +58,6 @@ module.exports = {
         amd: 'superagent'
       }
     },
-    /\@babel\/runtime/
+    /@babel\/runtime/
   ]
 };
