@@ -1,21 +1,23 @@
 {
   "name": "@workast/sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Workast SDK for JavaScript in the browser and Node.js",
-  "main": "src/workast.js",
+  "main": "dist/workast.js",
   "files": [
-    "src"
+    "dist"
   ],
   "scripts": {
     "lint": "eslint --format compact .",
     "test": "NODE_ENV=test nyc mocha 'test/**/*.spec.js'",
     "coverage": "npm test && nyc report --reporter=text-lcov | coveralls",
-    "docs": "jsdoc -c jsdoc.json"
+    "docs": "jsdoc -c jsdoc.json",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/workast/workast-sdk-js.git"
   },
+  "prepublishOnly": "npm run build",
   "keywords": [
     "workast",
     "project management",
@@ -31,7 +33,15 @@
     "node": ">=8.x",
     "npm": ">=5.x"
   },
+  "browserslist": [
+    "> 0.5%, last 2 versions, Firefox ESR, not dead",
+    "maintained node versions"
+  ],
   "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/plugin-transform-runtime": "^7.7.6",
+    "@babel/preset-env": "^7.7.6",
+    "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
     "coveralls": "^3.0.8",
     "eslint": "^6.1.0",
@@ -39,9 +49,12 @@
     "eslint-plugin-import": "^2.18.2",
     "husky": "^3.1.0",
     "mocha": "^6.2.2",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
   "dependencies": {
+    "@babel/runtime": "^7.7.6",
     "lodash.get": "^4.4.2",
     "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^4.0.1",
