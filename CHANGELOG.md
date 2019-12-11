@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### 0.2.2 - 2019-12-11
+
+- Move prepublishOnly inside scripts.
+
 ### 0.2.1 - 2019-12-11
 
 - Do not clean up build artifacts from the Git working directory before the deployment to NPM.
