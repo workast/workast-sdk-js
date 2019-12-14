@@ -199,8 +199,7 @@ class Workast {
       if (file) {
         // Make a multipart request.
         const fields = utils.buildMultipartFields(data);
-        Object.entries(fields).forEach(([key, value]) => req.field(key, value));
-        res = await req.attach('file', file);
+        res = await req.field(fields).attach('file', file);
       } else {
         // Make a json request.
         res = await req.send(data).type(Workast.DEFAULT_CONTENT_TYPE);
