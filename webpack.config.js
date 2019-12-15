@@ -2,12 +2,12 @@
 
 const path = require('path');
 
-module.exports = {
+const umdConfig = {
   mode: 'production',
   entry: path.resolve(__dirname, 'src/workast.js'),
   output: {
     filename: 'workast.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'lib'),
     library: 'Workast',
     libraryTarget: 'umd',
     globalObject: 'this'
@@ -61,3 +61,37 @@ module.exports = {
     /@babel\/runtime/
   ]
 };
+
+const browserConfig = {
+  mode: 'development',
+  entry: path.resolve(__dirname, 'src/workast.js'),
+  output: {
+    filename: 'workast.js',
+    path: path.resolve(__dirname, 'dist'),
+    library: 'Workast',
+    libraryTarget: 'window',
+    globalObject: 'window'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: [
+          path.resolve(__dirname, 'src')
+        ],
+        exclude: [
+          /node_modules/,
+          /dist/
+        ],
+        use: {
+          loader: 'babel-loader'
+        }
+      }
+    ]
+  }
+};
+
+module.exports = [
+  umdConfig,
+  browserConfig
+];
