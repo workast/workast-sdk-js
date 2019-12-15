@@ -3,7 +3,7 @@
 const path = require('path');
 
 const umdConfig = {
-  mode: 'production',
+  mode: 'development',
   entry: path.resolve(__dirname, 'src/workast.js'),
   output: {
     filename: 'workast.js',
@@ -29,7 +29,6 @@ const umdConfig = {
       }
     ]
   },
-  devtool: 'source-map',
   externals: [
     {
       'lodash.get': {
@@ -91,7 +90,38 @@ const browserConfig = {
   }
 };
 
+const browserConfigMin = {
+  mode: 'production',
+  entry: path.resolve(__dirname, 'src/workast.js'),
+  output: {
+    filename: 'workast.min.js',
+    path: path.resolve(__dirname, 'dist'),
+    library: 'Workast',
+    libraryTarget: 'window',
+    globalObject: 'window'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: [
+          path.resolve(__dirname, 'src')
+        ],
+        exclude: [
+          /node_modules/,
+          /dist/
+        ],
+        use: {
+          loader: 'babel-loader'
+        }
+      }
+    ]
+  },
+  devtool: 'source-map'
+};
+
 module.exports = [
   umdConfig,
-  browserConfig
+  browserConfig,
+  browserConfigMin
 ];
