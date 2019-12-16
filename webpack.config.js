@@ -29,6 +29,7 @@ const umdConfig = {
       }
     ]
   },
+  devtool: false,
   externals: [
     {
       'lodash.get': {
@@ -87,7 +88,8 @@ const browserConfig = {
         }
       }
     ]
-  }
+  },
+  devtool: false
 };
 
 const browserConfigMin = {
