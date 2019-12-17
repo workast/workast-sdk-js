@@ -127,7 +127,7 @@ describe('Workast', () => {
 
       token = chance.hash();
       workast = new Workast(token, {
-        timeout: chance.integer({ min: 1e3, max: 1e4 }),
+        timeout: chance.integer({ min: 50, max: 100 }),
         maxRetries: chance.integer({ min: 0, max: 5 }),
         apiBaseUrl: chance.url(),
         authBaseUrl: chance.url()
@@ -292,7 +292,29 @@ describe('Workast', () => {
       expect(scope.isDone()).to.be.true;
     });
 
-    it('Should reject if the request times out');
+    // TODO: remove .skip once superagent bug has been fixed: https://github.com/visionmedia/superagent/issues/1488
+    it.skip('Should reject if the request times out', async () => {
+      const method = 'GET';
+      const path = '/user/me';
+      const delay = workast.config.timeout + 1;
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .get(path)
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('Content-Type', 'application/json')
+        .delay(delay)
+        .reply(200, { id: chance.md5(), name: chance.name() });
+
+      await expect(workast.apiCall({ method, path })).to.eventually.be.rejectedWith(WorkastHTTPError)
+        .that.includes({
+          message: `Request timed out after ${workast.config.timeout} ms`,
+          type: 'RequestTimeoutError'
+        });
+
+      expect(scope.isDone()).to.be.true;
+    });
+
     it('Should reject if there is a request error');
   });
 });
