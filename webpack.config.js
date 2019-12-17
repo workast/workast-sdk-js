@@ -2,16 +2,8 @@
 
 const path = require('path');
 
-const umdConfig = {
-  mode: 'development',
+const commonConfig = {
   entry: path.resolve(__dirname, 'src/workast.js'),
-  output: {
-    filename: 'workast.js',
-    path: path.resolve(__dirname, 'lib'),
-    library: 'Workast',
-    libraryTarget: 'umd',
-    globalObject: 'this'
-  },
   module: {
     rules: [
       {
@@ -28,6 +20,17 @@ const umdConfig = {
         }
       }
     ]
+  }
+};
+
+const umdConfig = { ...commonConfig,
+  mode: 'development',
+  output: {
+    filename: 'workast.js',
+    path: path.resolve(__dirname, 'lib'),
+    library: 'Workast',
+    libraryTarget: 'umd',
+    globalObject: 'this'
   },
   devtool: false,
   externals: [
@@ -59,35 +62,17 @@ const umdConfig = {
       }
     },
     /@babel\/runtime/
-  ]
-};
+  ] };
 
 const browserConfig = {
+  ...commonConfig,
   mode: 'production',
-  entry: path.resolve(__dirname, 'src/workast.js'),
   output: {
     filename: 'workast.min.js',
     path: path.resolve(__dirname, 'dist'),
     library: 'Workast',
     libraryTarget: 'window',
     globalObject: 'window'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        include: [
-          path.resolve(__dirname, 'src')
-        ],
-        exclude: [
-          /node_modules/,
-          /dist/
-        ],
-        use: {
-          loader: 'babel-loader'
-        }
-      }
-    ]
   },
   devtool: 'source-map'
 };
