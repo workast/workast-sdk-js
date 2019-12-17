@@ -63,36 +63,6 @@ const umdConfig = {
 };
 
 const browserConfig = {
-  mode: 'development',
-  entry: path.resolve(__dirname, 'src/workast.js'),
-  output: {
-    filename: 'workast.js',
-    path: path.resolve(__dirname, 'dist'),
-    library: 'Workast',
-    libraryTarget: 'window',
-    globalObject: 'window'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        include: [
-          path.resolve(__dirname, 'src')
-        ],
-        exclude: [
-          /node_modules/,
-          /dist/
-        ],
-        use: {
-          loader: 'babel-loader'
-        }
-      }
-    ]
-  },
-  devtool: false
-};
-
-const browserConfigMin = {
   mode: 'production',
   entry: path.resolve(__dirname, 'src/workast.js'),
   output: {
@@ -124,6 +94,5 @@ const browserConfigMin = {
 
 module.exports = [
   umdConfig,
-  browserConfig,
-  browserConfigMin
+  browserConfig
 ];
