@@ -15,6 +15,7 @@ describe('Workast', () => {
         chance.bool(),
         { token: chance.hash() }
       ]);
+
       expect(() => new Workast(token)).to.throw(
         WorkastInvalidParameterError, 'Token must be a non-empty string.'
       );
@@ -30,6 +31,7 @@ describe('Workast', () => {
         chance.bool(),
         { timeout: chance.integer({ min: 1 }) }
       ]);
+
       expect(() => new Workast(token, { timeout })).to.throw(
         WorkastInvalidParameterError, 'Timeout must be an integer greater than zero.'
       );
@@ -45,6 +47,7 @@ describe('Workast', () => {
         chance.bool(),
         { maxRetries: chance.integer({ min: 0 }) }
       ]);
+
       expect(() => new Workast(token, { maxRetries })).to.throw(
         WorkastInvalidParameterError, 'Max retries must be an integer greater than or equal to zero.'
       );
@@ -59,6 +62,7 @@ describe('Workast', () => {
         chance.bool(),
         { apiBaseUrl: chance.url() }
       ]);
+
       expect(() => new Workast(token, { apiBaseUrl })).to.throw(
         WorkastInvalidParameterError, 'API base URL must be a non-empty string.'
       );
@@ -73,6 +77,7 @@ describe('Workast', () => {
         chance.bool(),
         { authBaseUrl: chance.url() }
       ]);
+
       expect(() => new Workast(token, { authBaseUrl })).to.throw(
         WorkastInvalidParameterError, 'Auth base URL must be a non-empty string.'
       );
@@ -108,6 +113,147 @@ describe('Workast', () => {
       };
       const workast = new Workast(token, config);
       expect(workast.config).to.deep.equal({ token, ...config });
+    });
+  });
+
+  describe('#apiCall', () => {
+    let token;
+    let workast;
+
+    before(() => {
+      token = chance.hash();
+      workast = new Workast(token, {
+        timeout: chance.integer({ min: 1 }),
+        maxRetries: chance.integer({ min: 0 }),
+        apiBaseUrl: chance.url(),
+        authBaseUrl: chance.url()
+      });
+    });
+
+    it('Should reject if "options.baseUrl" is not a non-empty string', async () => {
+      const baseUrl = chance.pickone([
+        null,
+        '',
+        chance.integer(),
+        chance.bool(),
+        { baseUrl: chance.url() }
+      ]);
+
+      await expect(workast.apiCall({ baseUrl })).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, 'Base URL must be a non-empty string.'
+      );
+    });
+
+    it('Should reject if "options.timeout" is not an integer greater than zero', async () => {
+      const timeout = chance.pickone([
+        null,
+        chance.hash(),
+        chance.integer({ max: 0 }),
+        chance.floating(),
+        chance.bool(),
+        { timeout: chance.integer({ min: 1 }) }
+      ]);
+
+      await expect(workast.apiCall({ timeout })).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, 'Timeout must be an integer greater than zero.'
+      );
+    });
+
+    it('Should reject if "options.maxRetries" is not an integer greater than or equal to zero', async () => {
+      const maxRetries = chance.pickone([
+        null,
+        chance.hash(),
+        chance.integer({ max: -1 }),
+        chance.floating(),
+        chance.bool(),
+        { maxRetries: chance.integer({ min: 0 }) }
+      ]);
+
+      await expect(workast.apiCall({ maxRetries })).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, 'Max retries must be an integer greater than or equal to zero.'
+      );
+    });
+
+    it('Should reject if "options.method" is invalid', async () => {
+      const method = chance.pickone([
+        null,
+        chance.word(),
+        chance.integer(),
+        chance.bool(),
+        { method: chance.pickone(Workast.ALLOWED_HTTP_METHODS) }
+      ]);
+
+      await expect(workast.apiCall({ method })).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, `Method must be one of ${Workast.ALLOWED_HTTP_METHODS.join(', ')}.`
+      );
+    });
+
+    it('Should reject if "options.path" is not a string', async () => {
+      const path = chance.pickone([
+        null,
+        chance.integer(),
+        chance.floating(),
+        chance.bool(),
+        { path: chance.word() }
+      ]);
+
+      await expect(workast.apiCall({ path })).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, 'Path must be a string.'
+      );
+    });
+
+    it('Should reject if "options.query" is not an object', async () => {
+      const query = chance.pickone([
+        null,
+        chance.word(),
+        chance.integer(),
+        chance.floating(),
+        chance.bool()
+      ]);
+
+      await expect(workast.apiCall({ query })).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, 'Query must be an object.'
+      );
+    });
+
+    it('Should reject if "options.body" is not an object', async () => {
+      const body = chance.pickone([
+        null,
+        chance.word(),
+        chance.integer(),
+        chance.floating(),
+        chance.bool()
+      ]);
+
+      await expect(workast.apiCall({ body })).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, 'Body must be an object.'
+      );
+    });
+
+    it('Should reject if "options.impersonate.team" is not a string', async () => {
+      const team = chance.pickone([
+        chance.integer({ min: 1 }),
+        chance.floating(),
+        true,
+        { team: chance.word() }
+      ]);
+
+      await expect(workast.apiCall({ impersonate: { team } })).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, 'Impersonated team must be a string.'
+      );
+    });
+
+    it('Should reject if "options.impersonate.user" is not a string', async () => {
+      const user = chance.pickone([
+        chance.integer({ min: 1 }),
+        chance.floating(),
+        true,
+        { team: chance.word() }
+      ]);
+
+      await expect(workast.apiCall({ impersonate: { user } })).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, 'Impersonated user must be a string.'
+      );
     });
   });
 });
