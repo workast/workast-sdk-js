@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
 const commonConfig = {
   entry: path.resolve(__dirname, 'src/workast.js'),
@@ -23,7 +24,8 @@ const commonConfig = {
   }
 };
 
-const umdConfig = { ...commonConfig,
+const umdConfig = {
+  ...commonConfig,
   mode: 'development',
   output: {
     filename: 'workast.js',
@@ -34,35 +36,9 @@ const umdConfig = { ...commonConfig,
   },
   devtool: false,
   externals: [
-    {
-      'lodash.get': {
-        commonjs: 'lodash.get',
-        commonjs2: 'lodash.get',
-        amd: 'lodash.get'
-      },
-      'lodash.isobject': {
-        commonjs: 'lodash.isobject',
-        commonjs2: 'lodash.isobject',
-        amd: 'lodash.isobject'
-      },
-      'lodash.isstring': {
-        commonjs: 'lodash.isstring',
-        commonjs2: 'lodash.isstring',
-        amd: 'lodash.isstring'
-      },
-      qs: {
-        commonjs: 'qs',
-        commonjs2: 'qs',
-        amd: 'qs'
-      },
-      superagent: {
-        commonjs: 'superagent',
-        commonjs2: 'superagent',
-        amd: 'superagent'
-      }
-    },
-    /@babel\/runtime/
-  ] };
+    nodeExternals()
+  ]
+};
 
 const browserConfig = {
   ...commonConfig,
