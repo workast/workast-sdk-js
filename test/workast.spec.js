@@ -1,8 +1,8 @@
 'use strict';
 
-const { expect, chance } = require('./index');
+const { expect, chance, nock } = require('./index');
 const Workast = require('../src/workast');
-const { WorkastInvalidParameterError } = require('../src/errors');
+const { WorkastInvalidParameterError, WorkastHTTPError } = require('../src/errors');
 
 describe('Workast', () => {
   describe('Constructor', () => {
@@ -121,13 +121,26 @@ describe('Workast', () => {
     let workast;
 
     before(() => {
+      if (!nock.isActive()) {
+        nock.activate();
+      }
+
       token = chance.hash();
       workast = new Workast(token, {
-        timeout: chance.integer({ min: 1 }),
-        maxRetries: chance.integer({ min: 0 }),
+        timeout: chance.integer({ min: 1e3, max: 1e4 }),
+        maxRetries: chance.integer({ min: 0, max: 5 }),
         apiBaseUrl: chance.url(),
         authBaseUrl: chance.url()
       });
+    });
+
+    beforeEach(() => {
+      nock.cleanAll();
+    });
+
+    after(() => {
+      nock.cleanAll();
+      nock.restore();
     });
 
     it('Should reject if "options.baseUrl" is not a non-empty string', async () => {
@@ -255,5 +268,31 @@ describe('Workast', () => {
         WorkastInvalidParameterError, 'Impersonated user must be a string.'
       );
     });
+
+    it('Should reject if there is a non 2xx response', async () => {
+      const method = 'GET';
+      const path = '/user/me';
+      const statusCode = chance.pickone([400, 401, 402, 403, 404, 409, 422, 500, 503]);
+      const responseBody = { error: { name: chance.word(), message: chance.sentence() } };
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .get(path)
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('Content-Type', 'application/json')
+        .reply(statusCode, responseBody);
+
+      await expect(workast.apiCall({ method, path })).to.eventually.be.rejectedWith(WorkastHTTPError)
+        .that.includes({
+          message: responseBody.error.message,
+          type: responseBody.error.name,
+          statusCode
+        });
+
+      expect(scope.isDone()).to.be.true;
+    });
+
+    it('Should reject if the request times out');
+    it('Should reject if there is a request error');
   });
 });
