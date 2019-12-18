@@ -400,9 +400,31 @@ describe('Workast', () => {
       expect(scope.isDone()).to.be.true;
     });
 
+    it('Should make a GET request', async () => {
+      const method = 'GET';
+      const path = '/user/me';
+      const responseBody = { id: chance.md5(), name: chance.name() };
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .get(path)
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('Content-Type', 'application/json')
+        .reply(200, responseBody);
+
+      const userData = await workast.apiCall({ method, path });
+      expect(userData).to.deep.equal(responseBody);
+      expect(scope.isDone()).to.be.true;
+    });
+
+    it('Should make a HEAD request');
+    it('Should make a POST request');
+    it('Should make a PUT request');
+    it('Should make a DELETE request');
+    it('Should make a PATCH request');
+    it('Should make a POST request with multipart/form-data');
+
     // TODO:
-    // 1. Test default parameters using options = {}.
-    // 2. Test each verb including multipart uploads.
     // 3. Add tests for utils.
   });
 });
