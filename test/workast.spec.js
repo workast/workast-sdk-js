@@ -385,6 +385,21 @@ describe('Workast', () => {
       expect(scope.isDone()).to.be.true;
     });
 
+    it('Should make a GET to the root of the API base URL by default', async () => {
+      const responseBody = { ip: chance.ip(), runningSince: chance.date() };
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .get('/')
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('Content-Type', 'application/json')
+        .reply(200, responseBody);
+
+      const resData = await workast.apiCall();
+      expect(resData).to.deep.equal(JSON.parse(JSON.stringify(responseBody)));
+      expect(scope.isDone()).to.be.true;
+    });
+
     // TODO:
     // 1. Test default parameters using options = {}.
     // 2. Test each verb including multipart uploads.
