@@ -13,10 +13,6 @@ const commonConfig = {
         include: [
           path.resolve(__dirname, 'src')
         ],
-        exclude: [
-          /node_modules/,
-          /dist/
-        ],
         use: {
           loader: 'babel-loader'
         }
