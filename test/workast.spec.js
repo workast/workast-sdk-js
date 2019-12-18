@@ -128,8 +128,8 @@ describe('Workast', () => {
 
       token = chance.hash();
       workast = new Workast(token, {
-        timeout: chance.integer({ min: 500, max: 1000 }),
-        maxRetries: chance.integer({ min: 0, max: 5 }),
+        timeout: chance.integer({ min: 100, max: 200 }),
+        maxRetries: 0,
         apiBaseUrl: chance.url(),
         authBaseUrl: chance.url()
       });
