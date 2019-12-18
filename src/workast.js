@@ -205,7 +205,7 @@ class Workast {
         res = await req.send(data).type(Workast.DEFAULT_CONTENT_TYPE);
       }
 
-      return Object.keys(res.body).length ? res.body : undefined;
+      return res.status === 204 ? undefined : res.body;
     } catch (err) {
       throw new WorkastHTTPError(err);
     }

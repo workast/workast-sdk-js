@@ -369,10 +369,25 @@ describe('Workast', () => {
       expect(scope.isDone()).to.be.true;
     });
 
+    it('Should resolve with "undefined" if response status is 204', async () => {
+      const method = 'PATCH';
+      const path = `/user/${chance.md5()}`;
+      const requestBody = { avatar: chance.url({ extensions: ['gif', 'jpg', 'png'] }) };
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .patch(path, requestBody)
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('Content-Type', 'application/json')
+        .reply(204);
+
+      await expect(workast.apiCall({ method, path, body: requestBody })).to.eventually.be.undefined;
+      expect(scope.isDone()).to.be.true;
+    });
+
     // TODO:
-    // 1. Test response body conversion. (See empty object or use 204 status code).
-    // 2. Test default parameters using options = {}.
-    // 3. Test each verb including multipart uploads.
-    // 4. Add tests for utils.
+    // 1. Test default parameters using options = {}.
+    // 2. Test each verb including multipart uploads.
+    // 3. Add tests for utils.
   });
 });
