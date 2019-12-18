@@ -330,5 +330,26 @@ describe('Workast', () => {
 
       stub.restore();
     });
+
+    it('Should make a request impersonating a team', async () => {
+      const method = 'GET';
+      const path = '/user';
+      const team = chance.hash();
+      const responseBody = [{ id: chance.md5(), name: chance.name() }];
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .get(path)
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('Content-Type', 'application/json')
+        .matchHeader(Workast.IMPERSONATE_TEAM_HEADER, team)
+        .reply(200, responseBody);
+
+      const users = await workast.apiCall({ method, path, impersonate: { team } });
+      expect(users).to.deep.equal(responseBody);
+      expect(scope.isDone()).to.be.true;
+    });
+
+    it('Should make a request impersonating a user');
   });
 });
