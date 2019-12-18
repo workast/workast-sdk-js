@@ -368,5 +368,11 @@ describe('Workast', () => {
       expect(userData).to.deep.equal(responseBody);
       expect(scope.isDone()).to.be.true;
     });
+
+    // TODO:
+    // 1. Test response body conversion. (See empty object or use 204 status code).
+    // 2. Test default parameters using options = {}.
+    // 3. Test each verb including multipart uploads.
+    // 4. Add tests for utils.
   });
 });
