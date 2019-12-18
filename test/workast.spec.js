@@ -1,6 +1,7 @@
 'use strict';
 
-const { expect, chance, nock } = require('./index');
+const superagent = require('superagent');
+const { expect, chance, nock, sinon } = require('./index');
 const Workast = require('../src/workast');
 const { WorkastInvalidParameterError, WorkastHTTPError } = require('../src/errors');
 
@@ -315,6 +316,19 @@ describe('Workast', () => {
       expect(scope.isDone()).to.be.true;
     });
 
-    it('Should reject if there is a request error');
+    it('Should reject if there is a request error', async () => {
+      const method = 'GET';
+      const path = '/user/me';
+      const errMsg = chance.sentence();
+      const stub = sinon.stub(superagent.Request.prototype, 'send').throws(new Error(errMsg));
+
+      await expect(workast.apiCall({ method, path })).to.eventually.be.rejectedWith(WorkastHTTPError)
+        .that.includes({
+          message: errMsg,
+          type: 'RequestError'
+        });
+
+      stub.restore();
+    });
   });
 });
