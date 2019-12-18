@@ -10,3 +10,6 @@ out/**
 
 # Dist folder
 dist/
+
+# Lib folder
+lib/
