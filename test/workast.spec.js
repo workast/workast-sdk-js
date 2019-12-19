@@ -280,7 +280,6 @@ describe('Workast', () => {
         .get(path)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
-        .matchHeader('Content-Type', 'application/json')
         .reply(statusCode, responseBody);
 
       await expect(workast.apiCall({ method, path })).to.eventually.be.rejectedWith(WorkastHTTPError)
@@ -320,7 +319,7 @@ describe('Workast', () => {
       const method = 'GET';
       const path = '/user/me';
       const errMsg = chance.sentence();
-      const stub = sinon.stub(superagent.Request.prototype, 'send').throws(new Error(errMsg));
+      const stub = sinon.stub(superagent.Request.prototype, 'query').throws(new Error(errMsg));
 
       await expect(workast.apiCall({ method, path })).to.eventually.be.rejectedWith(WorkastHTTPError)
         .that.includes({
@@ -341,7 +340,6 @@ describe('Workast', () => {
         .get(path)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
-        .matchHeader('Content-Type', 'application/json')
         .matchHeader(Workast.IMPERSONATE_TEAM_HEADER, team)
         .reply(200, responseBody);
 
@@ -360,7 +358,6 @@ describe('Workast', () => {
         .get(path)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
-        .matchHeader('Content-Type', 'application/json')
         .matchHeader(Workast.IMPERSONATE_USER_HEADER, user)
         .reply(200, responseBody);
 
@@ -392,7 +389,6 @@ describe('Workast', () => {
         .get('/')
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
-        .matchHeader('Content-Type', 'application/json')
         .reply(200, responseBody);
 
       const resData = await workast.apiCall();
@@ -402,18 +398,19 @@ describe('Workast', () => {
 
     it('Should make a GET request', async () => {
       const method = 'GET';
-      const path = '/user/me';
-      const responseBody = { id: chance.md5(), name: chance.name() };
+      const path = '/user';
+      const query = { role: 'admin', status: 'active' };
+      const responseBody = [{ id: chance.md5(), name: chance.name() }];
 
       const scope = nock(workast.config.apiBaseUrl)
         .get(path)
+        .query(query)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
-        .matchHeader('Content-Type', 'application/json')
         .reply(200, responseBody);
 
-      const userData = await workast.apiCall({ method, path });
-      expect(userData).to.deep.equal(responseBody);
+      const users = await workast.apiCall({ method, path, query });
+      expect(users).to.deep.equal(responseBody);
       expect(scope.isDone()).to.be.true;
     });
 

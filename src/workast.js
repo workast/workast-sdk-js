@@ -188,23 +188,24 @@ class Workast {
     }
 
     try {
-      let res;
-      const { file, ...data } = body;
-      const req = request(method, url)
-        .timeout(timeout)
-        .retry(maxRetries)
-        .query(query)
-        .set(headers);
+      const req = request(method, url).timeout(timeout).retry(maxRetries).set(headers);
 
-      if (file) {
-        // Make a multipart request.
-        const fields = utils.buildMultipartFields(data);
-        res = await req.field(fields).attach('file', file);
+      if (['GET', 'HEAD'].includes(method)) {
+        req.query(query);
       } else {
-        // Make a json request.
-        res = await req.send(data).type(Workast.DEFAULT_CONTENT_TYPE);
+        const { file, ...data } = body;
+
+        if (file) {
+          // Make a multipart request.
+          const fields = utils.buildMultipartFields(data);
+          req.field(fields).attach('file', file);
+        } else {
+          // Make a json request.
+          req.send(data).type(Workast.DEFAULT_CONTENT_TYPE);
+        }
       }
 
+      const res = await req;
       return res.status === 204 ? undefined : res.body;
     } catch (err) {
       throw new WorkastHTTPError(err);
