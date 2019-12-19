@@ -414,11 +414,93 @@ describe('Workast', () => {
       expect(scope.isDone()).to.be.true;
     });
 
-    it('Should make a HEAD request');
-    it('Should make a POST request');
-    it('Should make a PUT request');
-    it('Should make a DELETE request');
-    it('Should make a PATCH request');
+    it('Should make a HEAD request', async () => {
+      const method = 'HEAD';
+      const path = `/list/${chance.hash()}/membership`;
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .head(path)
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .reply(204);
+
+      await expect(workast.apiCall({ method, path })).to.eventually.be.undefined;
+      expect(scope.isDone()).to.be.true;
+    });
+
+    it('Should make a POST request', async () => {
+      const method = 'POST';
+      const path = `/task/${chance.md5()}/subtask`;
+      const requestBody = { text: chance.sentence() };
+      const responseBody = { id: chance.md5(), shortId: chance.word() };
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .post(path, requestBody)
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Content-Type', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .reply(201, responseBody);
+
+      const newSubtask = await workast.apiCall({ method, path, body: requestBody });
+      expect(newSubtask).to.deep.equal(responseBody);
+      expect(scope.isDone()).to.be.true;
+    });
+
+    it('Should make a PUT request', async () => {
+      const method = 'PUT';
+      const path = `/list/${chance.hash()}/platform`;
+      const requestBody = {
+        name: 'slack',
+        details: {
+          teamId: chance.hash(),
+          channelId: chance.hash(),
+          channelName: chance.name()
+        }
+      };
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .put(path, requestBody)
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Content-Type', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .reply(204);
+
+      await expect(workast.apiCall({ method, path, body: requestBody })).to.eventually.be.undefined;
+      expect(scope.isDone()).to.be.true;
+    });
+
+    it('Should make a DELETE request', async () => {
+      const method = 'DELETE';
+      const path = `/task/${chance.md5()}/tag`;
+      const requestBody = { tags: [chance.hash(), chance.hash()] };
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .delete(path, requestBody)
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Content-Type', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .reply(204);
+
+      await expect(workast.apiCall({ method, path, body: requestBody })).to.eventually.be.undefined;
+      expect(scope.isDone()).to.be.true;
+    });
+
+    it('Should make a PATCH request', async () => {
+      const method = 'PATCH';
+      const path = `/user/${chance.md5()}/role`;
+      const requestBody = { role: 'member' };
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .patch(path, requestBody)
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Content-Type', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .reply(204);
+
+      await expect(workast.apiCall({ method, path, body: requestBody })).to.eventually.be.undefined;
+      expect(scope.isDone()).to.be.true;
+    });
+
     it('Should make a POST request with multipart/form-data');
 
     // TODO:
