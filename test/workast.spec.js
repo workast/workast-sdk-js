@@ -522,7 +522,36 @@ describe('Workast', () => {
       expect(scope.isDone()).to.be.true;
     });
 
-    // TODO:
-    // 3. Add tests for utils.
+    it('Should normalize the URL before making the request', async () => {
+      const responseBody = { ok: true };
+      const scope = nock('https://example.com')
+        .get('/posts')
+        .times(4)
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .reply(200, responseBody);
+
+      // Case 1: The baseUrl does not end with a / and the path does not start with a /.
+      let baseUrl = 'https://example.com';
+      let path = 'posts';
+      await expect(workast.apiCall({ baseUrl, path })).to.eventually.deep.equal(responseBody);
+
+      // Case 2: The baseUrl ends with a / and the path starts with a /.
+      baseUrl = 'https://example.com/';
+      path = '/posts';
+      await expect(workast.apiCall({ baseUrl, path })).to.eventually.deep.equal(responseBody);
+
+      // Case 3: The baseUrl does not end with a / and the path starts with a /.
+      baseUrl = 'https://example.com';
+      path = '/posts';
+      await expect(workast.apiCall({ baseUrl, path })).to.eventually.deep.equal(responseBody);
+
+      // Case 4: The baseUrl ends with a / and the path does not start with a /.
+      baseUrl = 'https://example.com/';
+      path = 'posts';
+      await expect(workast.apiCall({ baseUrl, path })).to.eventually.deep.equal(responseBody);
+
+      expect(scope.isDone()).to.be.true;
+    });
   });
 });
