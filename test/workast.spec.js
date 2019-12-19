@@ -501,7 +501,7 @@ describe('Workast', () => {
       expect(scope.isDone()).to.be.true;
     });
 
-    it('Should make a POST request with multipart/form-data', async () => {
+    it('Should make a POST request with multipart/form-data sending a file and extra data', async () => {
       const method = 'POST';
       const path = `/task/${chance.md5()}/attachment`;
       const requestBody = {
@@ -519,6 +519,24 @@ describe('Workast', () => {
 
       const newAttachment = await workast.apiCall({ method, path, body: requestBody });
       expect(newAttachment).to.deep.equal(responseBody);
+      expect(scope.isDone()).to.be.true;
+    });
+
+    it('Should make a POST request with multipart/form-data sending only a file', async () => {
+      const method = 'POST';
+      const path = `/task/${chance.md5()}/attachment`;
+      const requestBody = { file: Buffer.from('Text file content', 'utf-8') };
+      const responseBody = { id: chance.hash(), createdAt: chance.date() };
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .post(path, (body) => body.includes('file'))
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Content-Type', /^multipart\/form-data/)
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .reply(201, responseBody);
+
+      const newAttachment = await workast.apiCall({ method, path, body: requestBody });
+      expect(newAttachment).to.deep.equal(JSON.parse(JSON.stringify(responseBody)));
       expect(scope.isDone()).to.be.true;
     });
 
