@@ -18,7 +18,7 @@ Workast SDK for JavaScript in the browser and Node.js
 - [Responsible disclosure](#responsible-disclosure)
 
 ## Prerequisites
-TODO: set minimum Node.js version and supported browsers.
+We use `browserlist` to handle our supported versions for both node and browsers, [you can see the updated list here.](https://browserl.ist/?q=%3E+1%25%2C+last+2+versions%2C+not+dead%2C+maintained+node+versions)
 
 ## Installation
 Using NPM:
