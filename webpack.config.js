@@ -1,17 +1,11 @@
 'use strict';
 
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-module.exports = {
-  mode: 'production',
+const commonConfig = {
   entry: path.resolve(__dirname, 'src/workast.js'),
-  output: {
-    filename: 'workast.js',
-    path: path.resolve(__dirname, 'dist'),
-    library: 'Workast',
-    libraryTarget: 'umd',
-    globalObject: 'this'
-  },
   module: {
     rules: [
       {
@@ -19,45 +13,53 @@ module.exports = {
         include: [
           path.resolve(__dirname, 'src')
         ],
-        exclude: [
-          /node_modules/,
-          /dist/
-        ],
         use: {
           loader: 'babel-loader'
         }
       }
     ]
+  }
+};
+
+const umdConfig = {
+  ...commonConfig,
+  mode: 'development',
+  output: {
+    filename: 'workast.js',
+    path: path.resolve(__dirname, 'lib'),
+    library: 'Workast',
+    libraryTarget: 'umd',
+    globalObject: 'this'
   },
-  devtool: 'source-map',
+  plugins: [
+    // Needs to be instantiated per config, sharing the reference to CleanWebpackPlugin
+    // in commonConfig, will result in both build cleaning the path.output
+    // of the first build that was executed.
+    new CleanWebpackPlugin()
+  ],
+  devtool: false,
   externals: [
-    {
-      'lodash.get': {
-        commonjs: 'lodash.get',
-        commonjs2: 'lodash.get',
-        amd: 'lodash.get'
-      },
-      'lodash.isobject': {
-        commonjs: 'lodash.isobject',
-        commonjs2: 'lodash.isobject',
-        amd: 'lodash.isobject'
-      },
-      'lodash.isstring': {
-        commonjs: 'lodash.isstring',
-        commonjs2: 'lodash.isstring',
-        amd: 'lodash.isstring'
-      },
-      qs: {
-        commonjs: 'qs',
-        commonjs2: 'qs',
-        amd: 'qs'
-      },
-      superagent: {
-        commonjs: 'superagent',
-        commonjs2: 'superagent',
-        amd: 'superagent'
-      }
-    },
-    /@babel\/runtime/
+    nodeExternals()
   ]
 };
+
+const browserConfig = {
+  ...commonConfig,
+  mode: 'production',
+  output: {
+    filename: 'workast.min.js',
+    path: path.resolve(__dirname, 'dist'),
+    library: 'Workast',
+    libraryTarget: 'window',
+    globalObject: 'window'
+  },
+  plugins: [
+    new CleanWebpackPlugin()
+  ],
+  devtool: 'source-map'
+};
+
+module.exports = [
+  umdConfig,
+  browserConfig
+];
