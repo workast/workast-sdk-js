@@ -1,6 +1,7 @@
 {
   "reporter": [
-    "text-summary"
+    "text-summary",
+    "html"
   ],
   "checkCoverage": false,
   "branches": 90,
