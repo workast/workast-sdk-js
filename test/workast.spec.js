@@ -501,7 +501,26 @@ describe('Workast', () => {
       expect(scope.isDone()).to.be.true;
     });
 
-    it('Should make a POST request with multipart/form-data');
+    it('Should make a POST request with multipart/form-data', async () => {
+      const method = 'POST';
+      const path = `/task/${chance.md5()}/attachment`;
+      const requestBody = {
+        file: Buffer.from('Text file content', 'utf-8'),
+        description: chance.sentence()
+      };
+      const responseBody = { id: chance.hash() };
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .post(path, (body) => Object.keys(requestBody).every((key) => body.includes(key)))
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Content-Type', /^multipart\/form-data/)
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .reply(201, responseBody);
+
+      const newAttachment = await workast.apiCall({ method, path, body: requestBody });
+      expect(newAttachment).to.deep.equal(responseBody);
+      expect(scope.isDone()).to.be.true;
+    });
 
     // TODO:
     // 3. Add tests for utils.
