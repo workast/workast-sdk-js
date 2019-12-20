@@ -17,5 +17,8 @@ node_modules/
 # IDE
 .idea/
 
-# Dist
+# Dist (Browser files)
 dist/
+
+# Lib (UMD files)
+lib/

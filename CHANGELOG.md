@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### 1.0.0 - 2019-12-19
+
+- [#15](https://github.com/workast/workast-sdk-js/issues/15)
+- [#16](https://github.com/workast/workast-sdk-js/issues/16)
+- [#22](https://github.com/workast/workast-sdk-js/issues/22)
+
 ### 0.2.2 - 2019-12-11
 
 - Move prepublishOnly inside scripts.
