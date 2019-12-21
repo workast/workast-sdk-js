@@ -1,9 +1,22 @@
 'use strict';
 
-const isString = require('lodash.isstring');
 const isObject = require('lodash.isobject');
 const get = require('lodash.get');
 const qs = require('qs');
+
+/**
+ * @private
+ *
+ * @description Checks if the given value is a string.
+ *
+ * @param {*} value - The value to check.
+ *
+ * @returns {boolean} True if the given value is a string.
+ * Otherwise, it returns false.
+ * */
+function isString(value) {
+  return typeof value === 'string';
+}
 
 /**
  * @private

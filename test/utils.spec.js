@@ -20,12 +20,10 @@ describe('Utils', () => {
 
     it('Should return false if it is an empty string', () => {
       expect(isNonEmptyString('')).to.be.false;
-      expect(isNonEmptyString(new String(''))).to.be.false; // eslint-disable-line no-new-wrappers
     });
 
     it('Should return true if it is a non empty string', () => {
       expect(isNonEmptyString(chance.sentence())).to.be.true;
-      expect(isNonEmptyString(new String(chance.sentence()))).to.be.true; // eslint-disable-line no-new-wrappers
     });
   });
 
