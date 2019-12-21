@@ -21,6 +21,20 @@ function isString(value) {
 /**
  * @private
  *
+ * @description Checks if the given value is a function.
+ *
+ * @param {*} value - The value to check.
+ *
+ * @returns {boolean} True if the given value is a function.
+ * Otherwise, it returns false.
+ * */
+function isFunction(value) {
+  return typeof value === 'function';
+}
+
+/**
+ * @private
+ *
  * @description Checks if the given value is a non-empty string.
  *
  * @param {*} value - The value to check.
@@ -95,5 +109,6 @@ module.exports = {
   buildMultipartFields,
   isString,
   isObject,
-  get
+  get,
+  isFunction
 };
