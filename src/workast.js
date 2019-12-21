@@ -35,6 +35,7 @@ const { WorkastInvalidParameterError, WorkastHTTPError } = require('./errors');
  * @property {Object} [impersonate] - The impersonation options.
  * @property {string} [impersonate.team] - The ID of the team to impersonate.
  * @property {string} [impersonate.user] - The ID of the user to impersonate.
+ * @property {Function} [onProgress] - A callback for progress events during the upload or download of large files.
  * */
 
 class Workast {
@@ -145,6 +146,7 @@ class Workast {
     const body = utils.get(options, 'body', {});
     const impersonatedTeam = utils.get(options, 'impersonate.team');
     const impersonatedUser = utils.get(options, 'impersonate.user');
+    const onProgress = utils.get(options, 'onProgress');
 
     if (!utils.isNonEmptyString(baseUrl)) {
       throw new WorkastInvalidParameterError('Base URL must be a non-empty string.');
@@ -172,6 +174,9 @@ class Workast {
     }
     if (impersonatedUser && !utils.isString(impersonatedUser)) {
       throw new WorkastInvalidParameterError('Impersonated user must be a string.');
+    }
+    if (onProgress && !utils.isFunction(onProgress)) {
+      throw new WorkastInvalidParameterError('Progress callback must be a function.');
     }
 
     const url = utils.normalizeUrl(baseUrl, path);
@@ -203,6 +208,10 @@ class Workast {
           // Make a json request.
           req.send(data).type(Workast.DEFAULT_CONTENT_TYPE);
         }
+      }
+
+      if (onProgress) {
+        req.on('progress', onProgress);
       }
 
       const res = await req;
