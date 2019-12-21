@@ -270,6 +270,19 @@ describe('Workast', () => {
       );
     });
 
+    it('Should reject if "options.onProgress" is not a function', async () => {
+      const onProgress = chance.pickone([
+        chance.word(),
+        chance.integer({ min: 1 }),
+        true,
+        { onProgress() {} }
+      ]);
+
+      await expect(workast.apiCall({ onProgress })).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, 'Progress callback must be a function.'
+      );
+    });
+
     it('Should reject if there is a non 2xx response', async () => {
       const method = 'GET';
       const path = '/user/me';
