@@ -13,7 +13,8 @@
     "coverage": "npm test && nyc report --reporter=text-lcov | coveralls",
     "docs": "jsdoc -c jsdoc.json",
     "build": "webpack",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "version": "node scripts/npm-version-hook.js"
   },
   "repository": {
     "type": "git",
