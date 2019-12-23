@@ -34,7 +34,7 @@ $ yarn add @workast/sdk
 ## Usage
 
 ### Node
-```
+```javascript
 'use strict';
 
 const Workast = require('@workast/sdk');
@@ -50,7 +50,7 @@ try {
 ```
 
 ### React
-```
+```javascript
 import Workast from '@workast/sdk';
 
 const workast = new Workast('<your_workast_token>');
@@ -64,7 +64,7 @@ try {
 ```
 
 ### HTML
-```
+```html
 <script src="https://unpkg.com/@workast/sdk@<version>/dist/workast.min.js"></script>
 <script>
   var workast = new Workast('<your_workast_token>');

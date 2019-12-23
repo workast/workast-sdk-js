@@ -68,7 +68,6 @@
     "@babel/runtime": "^7.7.6",
     "lodash.get": "^4.4.2",
     "lodash.isobject": "^3.0.2",
-    "lodash.isstring": "^4.0.1",
     "qs": "^6.9.1",
     "superagent": "^5.1.1"
   }
