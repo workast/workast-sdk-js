@@ -58,8 +58,8 @@
     "mocha": "^6.2.2",
     "nock": "^11.7.0",
     "nthline": "^1.0.2",
-    "nyc": "^14.1.1",
-    "sinon": "^7.5.0",
+    "nyc": "^15.0.0",
+    "sinon": "^8.0.1",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-node-externals": "^1.7.2"
