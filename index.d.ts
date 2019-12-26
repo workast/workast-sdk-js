@@ -100,17 +100,7 @@ declare interface SDKConfiguration {
   authBaseUrl?: string;
 }
 
-/**
- * Instantiates a Workast SDK.
- *
- * @param token - The Workast token.
- * @param config - Additional configuration.
- *
- * @returns {Workast} A Workast SDK instance.
- * */
 declare class Workast {
-  constructor(token: string, config?: SDKConfiguration);
-
   static DEFAULT_TIMEOUT: number;
 
   static DEFAULT_MAX_RETRIES: number;
@@ -130,14 +120,12 @@ declare class Workast {
   static DEFAULT_CONTENT_TYPE: string;
 
   /**
+   * Instantiates a Workast SDK.
+   * */
+  constructor(token: string, config?: SDKConfiguration);
+
+  /**
    * Makes an HTTP request to the Workast API.
-   *
-   * @param options - HTTP request options.
-   *
-   * @returns {Promise<Object|undefined>} A promise that resolves to the HTTP response body.
-   * Otherwise, it rejects with the appropriate error.
-   * 
-   * @public
   * */
   apiCall(options?: HTTPRequestOptions): Promise<Object> | Promise<undefined>
 }
