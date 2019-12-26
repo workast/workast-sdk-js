@@ -1,16 +1,28 @@
 /**
+ * Allowed HTTP methods.
+**/
+declare enum HttpMethod {
+  GET = "GET",
+  HEAD = "HEAD",
+  POST = "POST",
+  PUT = "PUT",
+  DELETE = "DELETE",
+  PATCH = "PATCH"
+}
+
+/**
  * Options to impersonate a user.
 **/
 declare interface ImpersonateOptions {
   /**
    * The ID of the team to impersonate. 
   **/
-  team: string;
+  team?: string;
 
   /**
    * The ID of the user to impersonate.
   **/
-  user: string;
+  user?: string;
 }
 
 /**
@@ -20,42 +32,42 @@ declare interface HTTPRequestOptions {
   /**
    * The base URL.
   **/
-  baseUrl: string;
+  baseUrl?: string;
 
   /**
    * The HTTP request timeout in milliseconds.
   **/
-  timeout: number;
+  timeout?: number;
 
   /**
    * The maximum amount of request retries.
   **/
-  maxRetries: number;
+  maxRetries?: number;
   
   /**
    * The HTTP method. Default: `GET`
   **/
-  method: string;
+  method?: HttpMethod;
   
   /**
    * The URL path. Default: `/`
   **/
-  path: string;
+  path?: string;
 
   /**
    * The key-values to be added to the query-string.
   **/
-  query: Object;
+  query?: Object;
 
   /**
    * The request payload.
   **/
-  body: Object;
+  body?: Object;
 
   /**
    * The impersonation options.
   **/
-  impersonate: ImpersonateOptions
+  impersonate?: ImpersonateOptions
 }
 
 /**
@@ -65,22 +77,22 @@ declare interface SDKConfiguration {
   /**
    * The HTTP request timeout in milliseconds. Default: `120000`
   **/
-  timeout: number;
+  timeout?: number;
   
   /**
    * The maximum amount of request retries. Default: `0`
   **/
-  maxRetries: number; 
+  maxRetries?: number;
 
   /**
    * The Workast API base url. Default: `https://api.todobot.io`
   **/
-  apiBaseUrl: string;
+  apiBaseUrl?: string;
 
   /**
    * The Workast Auth base url. Default: `https://my.workast.io`
   **/
-  authBaseUrl: string;
+  authBaseUrl?: string;
 }
 
 /**
@@ -92,7 +104,7 @@ declare interface SDKConfiguration {
  * @returns {Workast} A Workast SDK instance.
  * */
 declare class Workast {
-  constructor(token: string, config: SDKConfiguration);
+  constructor(token: string, config?: SDKConfiguration);
 
   static DEFAULT_TIMEOUT: number;
 
@@ -102,7 +114,7 @@ declare class Workast {
 
   static DEFAULT_AUTH_BASE_URL: string;
 
-  static ALLOWED_HTTP_METHODS: string;
+  static ALLOWED_HTTP_METHODS: HttpMethod[];
 
   static IMPERSONATE_TEAM_HEADER: string;
 
@@ -115,14 +127,14 @@ declare class Workast {
   /**
    * Makes an HTTP request to the Workast API.
    *
-   * @public
-   * 
    * @param options - HTTP request options.
    *
    * @returns {Promise<Object|undefined>} A promise that resolves to the HTTP response body.
    * Otherwise, it rejects with the appropriate error.
+   * 
+   * @public
   * */
-  async apiCall(options: HTTPRequestOptions): Promise<object>
+  apiCall(options?: HTTPRequestOptions): Promise<Object> | Promise<undefined>
 }
 
-export default Workast;
+export = Workast;
