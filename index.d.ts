@@ -11,9 +11,9 @@ declare enum HttpMethod {
 }
 
 /**
- * Options to impersonate a user.
+ * Impersonation options.
 **/
-declare interface ImpersonateOptions {
+declare interface Impersonate {
   /**
    * The ID of the team to impersonate. 
   **/
@@ -67,7 +67,12 @@ declare interface HTTPRequestOptions {
   /**
    * The impersonation options.
   **/
-  impersonate?: ImpersonateOptions
+  impersonate?: Impersonate
+
+  /**
+   * A callback for progress events during the upload or download of large files.
+  **/
+  onProgress?(event: Object): void;
 }
 
 /**
