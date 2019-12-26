@@ -11,6 +11,25 @@ declare enum HttpMethod {
 }
 
 /**
+ * The direction of the HTTP progress event.
+**/
+declare enum HttpProgressEventDirection {
+  UPLOAD = 'upload',
+  DOWNLOAD = 'download'
+}
+
+/**
+ * The HTTP progress event.
+**/
+declare interface HttpProgressEvent {
+  readonly direction: HttpProgressEventDirection;
+  readonly lengthComputable: boolean;
+  readonly loaded: number;
+  readonly total?: number;
+  readonly percent?: number;
+}
+
+/**
  * Impersonation options.
 **/
 declare interface Impersonate {
@@ -72,7 +91,7 @@ declare interface HTTPRequestOptions {
   /**
    * A callback for progress events during the upload or download of large files.
   **/
-  onProgress?(event: Object): void;
+  onProgress?(event: HttpProgressEvent): void;
 }
 
 /**
