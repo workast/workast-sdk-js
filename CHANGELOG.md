@@ -1,5 +1,12 @@
 # CHANGELOG
 
+### 1.1.0 - 2019-12-26
+
+- [#17](https://github.com/workast/workast-sdk-js/issues/17)
+- [#18](https://github.com/workast/workast-sdk-js/issues/18)
+- [#20](https://github.com/workast/workast-sdk-js/issues/20)
+- [#27](https://github.com/workast/workast-sdk-js/issues/27)
+
 ### 1.0.0 - 2019-12-19
 
 - [#15](https://github.com/workast/workast-sdk-js/issues/15)
