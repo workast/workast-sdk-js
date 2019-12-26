@@ -270,6 +270,19 @@ describe('Workast', () => {
       );
     });
 
+    it('Should reject if "options.onProgress" is not a function', async () => {
+      const onProgress = chance.pickone([
+        chance.word(),
+        chance.integer({ min: 1 }),
+        true,
+        { onProgress() {} }
+      ]);
+
+      await expect(workast.apiCall({ onProgress })).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, 'Progress callback must be a function.'
+      );
+    });
+
     it('Should reject if there is a non 2xx response', async () => {
       const method = 'GET';
       const path = '/user/me';
@@ -569,6 +582,32 @@ describe('Workast', () => {
       path = 'posts';
       await expect(workast.apiCall({ baseUrl, path })).to.eventually.deep.equal(responseBody);
 
+      expect(scope.isDone()).to.be.true;
+    });
+
+    it('Should call onProgress callback when uploading files', async () => {
+      const method = 'POST';
+      const path = `/task/${chance.md5()}/attachment`;
+      const requestBody = { file: Buffer.from('Text file content', 'utf-8') };
+      const responseBody = { id: chance.hash() };
+      const onProgress = sinon.spy();
+
+      const scope = nock(workast.config.apiBaseUrl)
+        .post(path, (body) => body.includes('file'))
+        .matchHeader('Accept', 'application/json')
+        .matchHeader('Content-Type', /^multipart\/form-data/)
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .reply(201, responseBody);
+
+      const newAttachment = await workast.apiCall({ method, path, body: requestBody, onProgress });
+      expect(newAttachment).to.deep.equal(responseBody);
+      expect(onProgress.called).to.be.true;
+      expect(onProgress.lastCall.args[0]).to.deep.equal({
+        direction: 'upload',
+        lengthComputable: true,
+        loaded: 216,
+        total: 216
+      });
       expect(scope.isDone()).to.be.true;
     });
   });

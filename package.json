@@ -1,11 +1,13 @@
 {
   "name": "@workast/sdk",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Workast SDK for JavaScript in the browser and Node.js",
   "main": "lib/workast.js",
+  "types": "index.d.ts",
   "files": [
     "lib",
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "scripts": {
     "lint": "eslint --format compact .",
@@ -13,7 +15,8 @@
     "coverage": "npm test && nyc report --reporter=text-lcov | coveralls",
     "docs": "jsdoc -c jsdoc.json",
     "build": "webpack",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "version": "node scripts/npm-version-hook.js"
   },
   "repository": {
     "type": "git",
@@ -56,8 +59,9 @@
     "husky": "^3.1.0",
     "mocha": "^6.2.2",
     "nock": "^11.7.0",
-    "nyc": "^14.1.1",
-    "sinon": "^7.5.0",
+    "nthline": "^1.0.2",
+    "nyc": "^15.0.0",
+    "sinon": "^8.0.1",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-node-externals": "^1.7.2"
@@ -66,7 +70,6 @@
     "@babel/runtime": "^7.7.6",
     "lodash.get": "^4.4.2",
     "lodash.isobject": "^3.0.2",
-    "lodash.isstring": "^4.0.1",
     "qs": "^6.9.1",
     "superagent": "^5.1.1"
   }
