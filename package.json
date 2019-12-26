@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Workast SDK for JavaScript in the browser and Node.js",
   "main": "lib/workast.js",
+  "types": "index.d.ts",
   "files": [
     "lib",
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "scripts": {
     "lint": "eslint --format compact .",
