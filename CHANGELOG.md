@@ -1,6 +1,6 @@
 # CHANGELOG
 
-### 1.2.0 - 2020-03-01
+### 1.2.0 - 2020-3-1
 - Update project dependencies.
 - Add test case for requests that time out.
 
