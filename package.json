@@ -1,6 +1,6 @@
 {
   "name": "@workast/sdk",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Workast SDK for JavaScript in the browser and Node.js",
   "main": "lib/workast.js",
   "types": "index.d.ts",
