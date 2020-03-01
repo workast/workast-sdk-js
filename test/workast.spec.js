@@ -305,8 +305,7 @@ describe('Workast', () => {
       expect(scope.isDone()).to.be.true;
     });
 
-    // TODO: remove .skip once superagent bug has been fixed: https://github.com/visionmedia/superagent/issues/1488
-    it.skip('Should reject if the request times out', async () => {
+    it('Should reject if the request times out', async () => {
       const method = 'GET';
       const path = '/user/me';
       const delay = workast.config.timeout + 1;
@@ -315,7 +314,6 @@ describe('Workast', () => {
         .get(path)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
-        .matchHeader('Content-Type', 'application/json')
         .delay(delay)
         .reply(200, { id: chance.md5(), name: chance.name() });
 
