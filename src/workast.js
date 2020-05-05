@@ -10,6 +10,7 @@
 const request = require('superagent');
 const utils = require('./utils');
 const { WorkastInvalidParameterError, WorkastHTTPError } = require('./errors');
+const { version } = require('../package.json');
 
 /**
  * The Workast SDK configuration.
@@ -182,7 +183,8 @@ class Workast {
     const url = utils.normalizeUrl(baseUrl, path);
     const headers = {
       Accept: Workast.DEFAULT_CONTENT_TYPE,
-      Authorization: `${Workast.AUTHENTICATION_SCHEME} ${this.config.token}`
+      Authorization: `${Workast.AUTHENTICATION_SCHEME} ${this.config.token}`,
+      'User-Agent': `workast-sdk-js/${version}`
     };
 
     if (impersonatedTeam) {
