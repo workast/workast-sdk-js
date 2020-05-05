@@ -293,6 +293,7 @@ describe('Workast', () => {
         .get(path)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(statusCode, responseBody);
 
       await expect(workast.apiCall({ method, path })).to.eventually.be.rejectedWith(WorkastHTTPError)
@@ -314,6 +315,7 @@ describe('Workast', () => {
         .get(path)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .delay(delay)
         .reply(200, { id: chance.md5(), name: chance.name() });
 
@@ -351,6 +353,7 @@ describe('Workast', () => {
         .get(path)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .matchHeader(Workast.IMPERSONATE_TEAM_HEADER, team)
         .reply(200, responseBody);
 
@@ -369,6 +372,7 @@ describe('Workast', () => {
         .get(path)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .matchHeader(Workast.IMPERSONATE_USER_HEADER, user)
         .reply(200, responseBody);
 
@@ -386,6 +390,7 @@ describe('Workast', () => {
         .patch(path, requestBody)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .matchHeader('Content-Type', 'application/json')
         .reply(204);
 
@@ -400,6 +405,7 @@ describe('Workast', () => {
         .get('/')
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(200, responseBody);
 
       const resData = await workast.apiCall();
@@ -418,6 +424,7 @@ describe('Workast', () => {
         .query(query)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(200, responseBody);
 
       const users = await workast.apiCall({ method, path, query });
@@ -433,6 +440,7 @@ describe('Workast', () => {
         .head(path)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(204);
 
       await expect(workast.apiCall({ method, path })).to.eventually.be.undefined;
@@ -450,6 +458,7 @@ describe('Workast', () => {
         .matchHeader('Accept', 'application/json')
         .matchHeader('Content-Type', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(201, responseBody);
 
       const newSubtask = await workast.apiCall({ method, path, body: requestBody });
@@ -474,6 +483,7 @@ describe('Workast', () => {
         .matchHeader('Accept', 'application/json')
         .matchHeader('Content-Type', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(204);
 
       await expect(workast.apiCall({ method, path, body: requestBody })).to.eventually.be.undefined;
@@ -490,6 +500,7 @@ describe('Workast', () => {
         .matchHeader('Accept', 'application/json')
         .matchHeader('Content-Type', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(204);
 
       await expect(workast.apiCall({ method, path, body: requestBody })).to.eventually.be.undefined;
@@ -506,6 +517,7 @@ describe('Workast', () => {
         .matchHeader('Accept', 'application/json')
         .matchHeader('Content-Type', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(204);
 
       await expect(workast.apiCall({ method, path, body: requestBody })).to.eventually.be.undefined;
@@ -526,6 +538,7 @@ describe('Workast', () => {
         .matchHeader('Accept', 'application/json')
         .matchHeader('Content-Type', /^multipart\/form-data/)
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(201, responseBody);
 
       const newAttachment = await workast.apiCall({ method, path, body: requestBody });
@@ -544,6 +557,7 @@ describe('Workast', () => {
         .matchHeader('Accept', 'application/json')
         .matchHeader('Content-Type', /^multipart\/form-data/)
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(201, responseBody);
 
       const newAttachment = await workast.apiCall({ method, path, body: requestBody });
@@ -558,6 +572,7 @@ describe('Workast', () => {
         .times(4)
         .matchHeader('Accept', 'application/json')
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(200, responseBody);
 
       // Case 1: The baseUrl does not end with a / and the path does not start with a /.
@@ -595,6 +610,7 @@ describe('Workast', () => {
         .matchHeader('Accept', 'application/json')
         .matchHeader('Content-Type', /^multipart\/form-data/)
         .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .matchHeader('User-Agent', Workast.USER_AGENT)
         .reply(201, responseBody);
 
       const newAttachment = await workast.apiCall({ method, path, body: requestBody, onProgress });

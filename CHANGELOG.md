@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 1.3.0 - 2020-5-5
+- [#33](https://github.com/workast/workast-sdk-js/issues/33)
+
 ### 1.2.0 - 2020-3-1
 - Update project dependencies.
 - Add test case for requests that time out.
