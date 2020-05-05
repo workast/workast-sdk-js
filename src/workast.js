@@ -58,6 +58,8 @@ class Workast {
 
   static get DEFAULT_CONTENT_TYPE() { return 'application/json'; }
 
+  static get USER_AGENT() { return `workast-sdk-js/${version}`; }
+
   /**
    * @description Instantiates a Workast SDK.
    *
@@ -184,7 +186,7 @@ class Workast {
     const headers = {
       Accept: Workast.DEFAULT_CONTENT_TYPE,
       Authorization: `${Workast.AUTHENTICATION_SCHEME} ${this.config.token}`,
-      'User-Agent': `workast-sdk-js/${version}`
+      'User-Agent': Workast.USER_AGENT
     };
 
     if (impersonatedTeam) {
