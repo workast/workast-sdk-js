@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### 1.3.1 - 2020-5-7
+- [#35](https://github.com/workast/workast-sdk-js/issues/35)
+- [#36](https://github.com/workast/workast-sdk-js/issues/36)
+
 ### 1.3.0 - 2020-5-5
 - [#33](https://github.com/workast/workast-sdk-js/issues/33)
 
