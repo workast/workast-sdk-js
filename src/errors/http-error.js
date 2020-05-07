@@ -20,17 +20,16 @@ class WorkastHTTPError extends BaseError {
   constructor(err) {
     let { message } = err;
     let type = 'RequestError';
-    let statusCode;
+    const statusCode = err.status;
 
-    if (err.status) {
+    if (err.response) {
       const { body } = err.response;
       message = utils.get(
         body,
         'error.message',
-        utils.get(body, 'message', `Request failed with status code ${err.status}`)
+        utils.get(body, 'message', `Request failed with status code ${statusCode}`)
       );
       type = utils.get(body, 'error.name', 'ResponseError');
-      statusCode = err.status;
     } else if (err.timeout) {
       message = `Request timed out after ${err.timeout} ms`;
       type = 'RequestTimeoutError';

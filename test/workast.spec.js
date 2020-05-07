@@ -624,5 +624,19 @@ describe('Workast', () => {
       });
       expect(scope.isDone()).to.be.true;
     });
+
+    it('Should reject with the appropriate error if an error not related to superagent occurs', async () => {
+      const scope = nock(workast.config.apiBaseUrl)
+        .get('/user/fake')
+        .matchHeader('Authorization', `Bearer ${workast.config.token}`)
+        .reply(200, {});
+
+      await expect(workast.apiCall({ method: 'GET', path: '/user/me' }))
+        .to.eventually.be.rejectedWith(WorkastHTTPError)
+        .that.has.property('message')
+        .that.matches(/^Nock: No match for request/);
+
+      expect(scope.isDone()).to.be.false;
+    });
   });
 });
