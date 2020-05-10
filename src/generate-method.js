@@ -3,21 +3,21 @@
 const { WorkastInvalidParameterError } = require('./errors');
 
 /**
- * API method spec.
+ * Method spec.
  *
- * @typedef {Object} WorkastMethodSpec
+ * @typedef {Object} MethodSpec
  * @property {string} method - The HTTP method. One of 'GET', 'HEAD', 'POST', 'PUT', 'DELETE' or 'PATCH'.
  * @property {string} path - The generic URL path.
  * */
 
 /**
- * @summary Creates an API method from the given spec.
+ * @summary Generates an API method from the given spec.
  *
- * @param {WorkastMethodSpec} spec - The method spec.
+ * @param {MethodSpec} spec - The method spec.
  *
  * @returns {Function} An async function to call the API endpoint.
  * */
-function workastMethod(spec) {
+function generateMethod(spec) {
   // eslint-disable-next-line func-names
   return async function (...args) {
     const urlParamsCount = (spec.path.match(/{\w+}/g) || []).length;
@@ -57,4 +57,4 @@ function workastMethod(spec) {
   };
 }
 
-module.exports = workastMethod;
+module.exports = generateMethod;
