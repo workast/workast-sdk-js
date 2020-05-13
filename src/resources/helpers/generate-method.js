@@ -1,6 +1,6 @@
 'use strict';
 
-const { WorkastInvalidParameterError } = require('./errors');
+const { WorkastInvalidParameterError } = require('../../errors');
 
 /**
  * Method spec.
@@ -13,11 +13,12 @@ const { WorkastInvalidParameterError } = require('./errors');
 /**
  * @summary Generates an API method from the given spec.
  *
+ * @param {Workast} workast - The Workast SDK instance.
  * @param {MethodSpec} spec - The method spec.
  *
  * @returns {Function} An async function to call the API endpoint.
  * */
-function generateMethod(spec) {
+function generateMethod(workast, spec) {
   // eslint-disable-next-line func-names
   return async function (...args) {
     const urlParamsCount = (spec.path.match(/{\w+}/g) || []).length;
@@ -47,7 +48,7 @@ function generateMethod(spec) {
     const options = args[urlParamsCount + 1] || {};
 
     // Perform API call.
-    return this.apiCall({
+    return workast.apiCall({
       ...options, // Keep options first, so properties like 'method' cannot be overwritten.
       method: spec.method,
       path,
