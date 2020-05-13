@@ -25,7 +25,7 @@ module.exports = (workast) => ({
   assign: generateMethod(workast, {
     method: 'POST', path: `${RESOURCE_PATH.TASK}/{id}/assigned`
   }),
-  exempt: generateMethod(workast, {
+  unassign: generateMethod(workast, {
     method: 'DELETE', path: `${RESOURCE_PATH.TASK}/{id}/assigned`
   }),
   clone: generateMethod(workast, {
