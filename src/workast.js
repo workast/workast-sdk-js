@@ -11,6 +11,7 @@ const request = require('superagent');
 const utils = require('./utils');
 const { WorkastInvalidParameterError, WorkastHTTPError } = require('./errors');
 const { version } = require('../package.json');
+const resources = require('./resources');
 
 /**
  * The Workast SDK configuration.
@@ -108,6 +109,11 @@ class Workast {
     }
 
     this.config = { token, timeout, maxRetries, apiBaseUrl, authBaseUrl };
+
+    // Load resources.
+    Object.entries(resources).forEach(([resourceName, resourceFactory]) => {
+      this[resourceName] = resourceFactory(this);
+    });
   }
 
   /**
