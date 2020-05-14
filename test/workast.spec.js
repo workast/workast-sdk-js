@@ -641,7 +641,7 @@ describe('Workast', () => {
     });
   });
 
-  describe.only('Resources', () => {
+  describe('Resources', () => {
     let workast;
 
     before(() => {
@@ -750,6 +750,25 @@ describe('Workast', () => {
       stub.restore();
     });
 
-    it('Should perform a POST request with options');
+    it('Should perform a POST request with options', async () => {
+      const taskId = chance.hash();
+      const body = { tags: [chance.hash()] };
+      const options = {
+        baseUrl: chance.url(), impersonate: { team: chance.md5(), user: chance.md5() }
+      };
+      const stub = sinon.stub(workast, 'apiCall').resolves(undefined);
+
+      await expect(workast.tasks.addTags(taskId, body, options)).to.eventually.be.undefined;
+
+      expect(stub.withArgs({
+        method: 'POST',
+        path: `${RESOURCE_PATH.TASK}/${taskId}/tag`,
+        query: undefined,
+        body,
+        ...options
+      }).calledOnce).to.be.true;
+
+      stub.restore();
+    });
   });
 });
