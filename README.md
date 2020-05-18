@@ -42,8 +42,8 @@ const Workast = require('@workast/sdk');
 const workast = new Workast('<your_workast_token>');
 
 try {
-  const myData = await workast.apiCall({ path: '/user/me' });
-  console.log('My data: %O', myData);
+  const task = await workast.tasks.retrieve('1a3271c30016e2443843bc964c413733');
+  console.log('Task data: %O', task);
 } catch (err) {
   console.error('Something went wrong: %O', err);
 }
@@ -56,8 +56,8 @@ import Workast from '@workast/sdk';
 const workast = new Workast('<your_workast_token>');
 
 try {
-  const myData = await workast.apiCall({ path: '/user/me' });
-  console.log('My data: %O', myData);
+  const task = await workast.tasks.retrieve('1a3271c30016e2443843bc964c413733');
+  console.log('Task data: %O', task);
 } catch (err) {
   console.error('Something went wrong: %O', err);
 }
@@ -69,12 +69,9 @@ try {
 <script>
   var workast = new Workast('<your_workast_token>');
 
-  workast
-    .apiCall({
-      path: 'user/me'
-    })
-    .then(function(myData) {
-      console.log('My data: %O', myData);
+  workast.tasks.retrieve('1a3271c30016e2443843bc964c413733')
+    .then(function(task) {
+      console.log('Task data: %O', task);
     })
     .catch(function(err) {
       console.error('Something went wrong: %O', err);

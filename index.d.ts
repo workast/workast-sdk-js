@@ -1,6 +1,3 @@
-/**
- * Allowed HTTP methods.
-**/
 declare enum HttpMethod {
   GET = 'GET',
   HEAD = 'HEAD',
@@ -10,17 +7,11 @@ declare enum HttpMethod {
   PATCH = 'PATCH'
 }
 
-/**
- * The direction of the HTTP progress event.
-**/
 declare enum HttpProgressEventDirection {
   UPLOAD = 'upload',
   DOWNLOAD = 'download'
 }
 
-/**
- * The HTTP progress event.
-**/
 declare interface HttpProgressEvent {
   readonly direction: HttpProgressEventDirection;
   readonly lengthComputable: boolean;
@@ -29,123 +20,79 @@ declare interface HttpProgressEvent {
   readonly percent?: number;
 }
 
-/**
- * Impersonation options.
-**/
 declare interface Impersonate {
-  /**
-   * The ID of the team to impersonate. 
-  **/
   team?: string;
-
-  /**
-   * The ID of the user to impersonate.
-  **/
   user?: string;
 }
 
-/**
- * Options to make a HTTP request to the Workast API.
-**/
 declare interface HTTPRequestOptions {
-  /**
-   * The base URL.
-  **/
   baseUrl?: string;
-
-  /**
-   * The HTTP request timeout in milliseconds.
-  **/
   timeout?: number;
-
-  /**
-   * The maximum amount of request retries.
-  **/
   maxRetries?: number;
-  
-  /**
-   * The HTTP method. Default: `GET`
-  **/
   method?: HttpMethod;
-  
-  /**
-   * The URL path. Default: `/`
-  **/
   path?: string;
-
-  /**
-   * The key-values to be added to the query-string.
-  **/
   query?: Object;
-
-  /**
-   * The request payload.
-  **/
   body?: Object;
-
-  /**
-   * The impersonation options.
-  **/
   impersonate?: Impersonate
-
-  /**
-   * A callback for progress events during the upload or download of large files.
-  **/
   onProgress?(event: HttpProgressEvent): void;
 }
 
-/**
- * The Workast SDK configuration. 
-**/
 declare interface SDKConfiguration {
-  /**
-   * The HTTP request timeout in milliseconds. Default: `120000`
-  **/
   timeout?: number;
-  
-  /**
-   * The maximum amount of request retries. Default: `0`
-  **/
   maxRetries?: number;
-
-  /**
-   * The Workast API base url. Default: `https://api.todobot.io`
-  **/
   apiBaseUrl?: string;
-
-  /**
-   * The Workast Auth base url. Default: `https://my.workast.io`
-  **/
   authBaseUrl?: string;
+}
+
+declare interface ResourceRequestOptions {
+  baseUrl?: string;
+  timeout?: number;
+  maxRetries?: number;
+  impersonate?: Impersonate
+  onProgress?(event: HttpProgressEvent): void;
+}
+
+declare interface TasksResource {
+  create(spaceId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
+  retrieve(taskId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  update(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  del(taskId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  subscribe(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  unsubscribe(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  restore(taskId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  complete(taskId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  reopen(taskId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  assign(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  unassign(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  clone(taskId: string, body?: Object, options?: ResourceRequestOptions): Promise<Object>
+  search(body: Object, options?: ResourceRequestOptions): Promise<Object>
+  addTags(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  removeTags(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  createAttachment(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
+  deleteAttachment(taskId: string, attachmentId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  updateAttachment(taskId: string, attachmentId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
+  createSubtask(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
+  listActivity(taskId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  addComment(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
+  deleteComment(taskId: string, commentId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  updateComment(taskId: string, commentId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
 }
 
 declare class Workast {
   static DEFAULT_TIMEOUT: number;
-
   static DEFAULT_MAX_RETRIES: number;
-
   static DEFAULT_API_BASE_URL: string;
-
   static DEFAULT_AUTH_BASE_URL: string;
-
   static ALLOWED_HTTP_METHODS: HttpMethod[];
-
   static IMPERSONATE_TEAM_HEADER: string;
-
   static IMPERSONATE_USER_HEADER: string;
-  
   static AUTHENTICATION_SCHEME: string;
-
   static DEFAULT_CONTENT_TYPE: string;
 
-  /**
-   * Instantiates a Workast SDK.
-   * */
   constructor(token: string, config?: SDKConfiguration);
 
-  /**
-   * Makes an HTTP request to the Workast API.
-  * */
+  tasks: TasksResource;
+
   apiCall(options?: HTTPRequestOptions): Promise<Object> | Promise<undefined>
 }
 

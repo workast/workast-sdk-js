@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 2.0.0 - 2020-5-18
+- [#39](https://github.com/workast/workast-sdk-js/issues/39) - Add task resource methods.
+
 ### 1.3.1 - 2020-5-7
 - [#35](https://github.com/workast/workast-sdk-js/issues/35)
 - [#36](https://github.com/workast/workast-sdk-js/issues/36)

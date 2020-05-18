@@ -4,6 +4,7 @@ const superagent = require('superagent');
 const { expect, chance, nock, sinon } = require('./index');
 const Workast = require('../src/workast');
 const { WorkastInvalidParameterError, WorkastHTTPError } = require('../src/errors');
+const { RESOURCE_PATH } = require('../src/resources/helpers');
 
 describe('Workast', () => {
   describe('Constructor', () => {
@@ -637,6 +638,137 @@ describe('Workast', () => {
         .that.matches(/^Nock: No match for request/);
 
       expect(scope.isDone()).to.be.false;
+    });
+  });
+
+  describe('Resources', () => {
+    let workast;
+
+    before(() => {
+      workast = new Workast(chance.hash());
+    });
+
+    it('Should reject if the number of provided args is less than the number of path params', async () => {
+      await expect(workast.tasks.retrieve()).to.eventually.be.rejectedWith(
+        WorkastInvalidParameterError, 'Missing URL params'
+      );
+    });
+
+    it('Should perform a GET request without query params', async () => {
+      const taskId = chance.hash();
+      const taskDetails = { id: taskId, text: chance.sentence() };
+      const stub = sinon.stub(workast, 'apiCall').resolves(taskDetails);
+
+      await expect(workast.tasks.retrieve(taskId)).to.eventually.deep.equal(taskDetails);
+
+      expect(stub.withArgs({
+        method: 'GET',
+        path: `${RESOURCE_PATH.TASK}/${taskId}`,
+        query: undefined,
+        body: undefined
+      }).calledOnce).to.be.true;
+
+      stub.restore();
+    });
+
+    it('Should perform a GET request with query params', async () => {
+      const taskId = chance.hash();
+      const result = { activities: [{ id: chance.hash() }, { id: chance.hash() }], total: 2 };
+      const query = { type: ['comment'], limit: 10, sort: '-createdAt' };
+      const stub = sinon.stub(workast, 'apiCall').resolves(result);
+
+      await expect(workast.tasks.listActivity(taskId, query)).to.eventually.deep.equal(result);
+
+      expect(stub.withArgs({
+        method: 'GET',
+        path: `${RESOURCE_PATH.TASK}/${taskId}/activity`,
+        query,
+        body: undefined
+      }).calledOnce).to.be.true;
+
+      stub.restore();
+    });
+
+    it('Should perform a GET request with options', async () => {
+      const taskId = chance.hash();
+      const taskDetails = { id: taskId, text: chance.sentence() };
+      const options = { timeout: 5000, impersonate: { team: chance.md5(), user: chance.md5() } };
+      const stub = sinon.stub(workast, 'apiCall').resolves(taskDetails);
+
+      await expect(workast.tasks.retrieve(taskId, {}, options)).to.eventually.deep.equal(taskDetails);
+
+      expect(stub.withArgs({
+        method: 'GET',
+        path: `${RESOURCE_PATH.TASK}/${taskId}`,
+        query: {},
+        body: undefined,
+        ...options
+      }).calledOnce).to.be.true;
+
+      stub.restore();
+    });
+
+    it('Should perform a POST request without body', async () => {
+      const taskId = chance.hash();
+      const stub = sinon.stub(workast, 'apiCall').resolves(undefined);
+
+      await expect(workast.tasks.restore(taskId)).to.eventually.be.undefined;
+
+      expect(stub.withArgs({
+        method: 'POST',
+        path: `${RESOURCE_PATH.TASK}/${taskId}/restore`,
+        query: undefined,
+        body: undefined
+      }).calledOnce).to.be.true;
+
+      stub.restore();
+    });
+
+    it('Should perform a POST request with body', async () => {
+      const body = {
+        includeSubTasks: false,
+        predicates: [
+          { type: 'status', attribute: 'status', comparison: 'eq', value: 'pending' },
+          { type: 'user', attribute: 'assignedTo', comparison: 'eq', value: chance.md5() }
+        ],
+        sort: [{ field: 'createdAt', direction: -1 }],
+        expand: ['assignedTo', 'subscribers', 'tags', 'createdBy', 'parent', 'listId', 'doneBy'],
+        limit: 50
+      };
+      const result = { tasks: [{ id: chance.hash() }, { id: chance.hash() }], total: 2, hiddenTasks: 0 };
+      const stub = sinon.stub(workast, 'apiCall').resolves(result);
+
+      await expect(workast.tasks.search(body)).to.eventually.deep.equal(result);
+
+      expect(stub.withArgs({
+        method: 'POST',
+        path: `${RESOURCE_PATH.TASK}/search`,
+        query: undefined,
+        body
+      }).calledOnce).to.be.true;
+
+      stub.restore();
+    });
+
+    it('Should perform a POST request with options', async () => {
+      const taskId = chance.hash();
+      const body = { tags: [chance.hash()] };
+      const options = {
+        baseUrl: chance.url(), impersonate: { team: chance.md5(), user: chance.md5() }
+      };
+      const stub = sinon.stub(workast, 'apiCall').resolves(undefined);
+
+      await expect(workast.tasks.addTags(taskId, body, options)).to.eventually.be.undefined;
+
+      expect(stub.withArgs({
+        method: 'POST',
+        path: `${RESOURCE_PATH.TASK}/${taskId}/tag`,
+        query: undefined,
+        body,
+        ...options
+      }).calledOnce).to.be.true;
+
+      stub.restore();
     });
   });
 });
