@@ -1,9 +1,11 @@
 'use strict';
 
-const { generateMethod, generateBasicMethods, RESOURCE_PATH } = require('./helpers');
+const { generateMethod, generateBasicMethods, RESOURCE_PATH, BASIC_METHODS } = require('./helpers');
 
 module.exports = (workast) => ({
-  ...generateBasicMethods(workast, RESOURCE_PATH.TASK, ['retrieve', 'update', 'del']),
+  ...generateBasicMethods(
+    workast, RESOURCE_PATH.TASK, [BASIC_METHODS.RETRIEVE, BASIC_METHODS.UPDATE, BASIC_METHODS.DELETE]
+  ),
   create: generateMethod(workast, {
     method: 'POST', path: `${RESOURCE_PATH.LIST}/{listId}/task`
   }),

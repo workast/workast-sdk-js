@@ -2,12 +2,12 @@
 
 const { expect, chance } = require('./index');
 const Workast = require('../src/workast');
-const { generateBasicMethods, RESOURCE_PATH } = require('../src/resources/helpers');
+const { generateBasicMethods, RESOURCE_PATH, BASIC_METHODS } = require('../src/resources/helpers');
 
 describe('#generateBasicMethods', () => {
   let workast;
   let resourcePath;
-  const allMethods = ['create', 'list', 'retrieve', 'update', 'del'];
+  const allMethods = Object.values(BASIC_METHODS);
 
   before(() => {
     workast = new Workast(chance.hash());

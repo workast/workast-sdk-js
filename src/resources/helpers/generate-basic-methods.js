@@ -1,6 +1,7 @@
 'use strict';
 
 const generateMethod = require('./generate-method');
+const BASIC_METHODS = require('./basic-methods');
 
 /**
  * @summary Generates RESTful HTTP methods for the given resource.
@@ -13,11 +14,11 @@ const generateMethod = require('./generate-method');
  * */
 function generateBasicMethods(workast, resourcePath, include) {
   const basicMethods = {
-    create: generateMethod(workast, { method: 'POST', path: resourcePath }),
-    list: generateMethod(workast, { method: 'GET', path: resourcePath }),
-    retrieve: generateMethod(workast, { method: 'GET', path: `${resourcePath}/{id}` }),
-    update: generateMethod(workast, { method: 'PATCH', path: `${resourcePath}/{id}` }),
-    del: generateMethod(workast, { method: 'DELETE', path: `${resourcePath}/{id}` })
+    [BASIC_METHODS.CREATE]: generateMethod(workast, { method: 'POST', path: resourcePath }),
+    [BASIC_METHODS.LIST]: generateMethod(workast, { method: 'GET', path: resourcePath }),
+    [BASIC_METHODS.RETRIEVE]: generateMethod(workast, { method: 'GET', path: `${resourcePath}/{id}` }),
+    [BASIC_METHODS.UPDATE]: generateMethod(workast, { method: 'PATCH', path: `${resourcePath}/{id}` }),
+    [BASIC_METHODS.DELETE]: generateMethod(workast, { method: 'DELETE', path: `${resourcePath}/{id}` })
   };
 
   if (!include) return basicMethods;
