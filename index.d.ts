@@ -52,6 +52,37 @@ declare interface ResourceRequestOptions {
   onProgress?(event: HttpProgressEvent): void;
 }
 
+declare interface ListsResource {
+  addComment(listId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
+  addParticipants(listId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
+  archive(listId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  create(body: Object, options?: ResourceRequestOptions): Promise<Object>
+  createAttachment(listId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
+  createNote(listId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
+  createSublist(listId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
+  deleteAttachment(listId: string, attachmentId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  deleteComment(listId: string, commentId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  deleteSublist(listId: string, sublistId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  importTemplate(listId: string, templateId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
+  join(listId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  list(query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  listActivity(listId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  listAttachments(listId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  listParticipants(listId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  listNotes(listId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  moveTasks(listId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  personal(query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  removeParticipants(listId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  retrieve(listId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  retrieveNote(listId: string, noteId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  unarchive(listId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  update(listId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  updateAttachment(listId: string, attachmentId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  updateComment(listId: string, commentId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  updateNote(listId: string, noteId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  updateSublist(listId: string, sublistId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+}
+
 declare interface TasksResource {
   create(spaceId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
   retrieve(taskId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
@@ -91,6 +122,7 @@ declare class Workast {
 
   constructor(token: string, config?: SDKConfiguration);
 
+  lists: ListsResource;
   tasks: TasksResource;
 
   apiCall(options?: HTTPRequestOptions): Promise<Object> | Promise<undefined>
