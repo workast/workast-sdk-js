@@ -55,8 +55,7 @@ const browserConfig = {
   },
   plugins: [
     new CleanWebpackPlugin()
-  ],
-  devtool: 'source-map'
+  ]
 };
 
 module.exports = [
