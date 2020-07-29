@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 2.1.1 - 2020-7-29
+- [#40](https://github.com/workast/workast-sdk-js/issues/40) - Remove source map.
+
 ### 2.1.0 - 2020-7-27
 - [#42](https://github.com/workast/workast-sdk-js/issues/42) - Add list resource methods.
 
