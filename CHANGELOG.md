@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### 2.2.0 - 2020-8-4
+- [#47](https://github.com/workast/workast-sdk-js/issues/47) - Add notification resource.
+- [#48](https://github.com/workast/workast-sdk-js/issues/48) - Add `tasks.markAllNotificationsAsRead()`.
+
 ### 2.1.1 - 2020-7-29
 - [#40](https://github.com/workast/workast-sdk-js/issues/40) - Remove source map.
 
