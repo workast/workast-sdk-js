@@ -83,6 +83,17 @@ declare interface ListsResource {
   updateSublist(listId: string, sublistId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
 }
 
+declare interface NotificationsResource {
+  list(query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  markAllAsRead(body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  markAsRead(notificationId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  markAsUnread(notificationId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  retrieveSettings(query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  subscribe(body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  unsubscribe(body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  updateSettings(body: Object, options?: ResourceRequestOptions): Promise<undefined>
+}
+
 declare interface TasksResource {
   create(spaceId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
   retrieve(taskId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
@@ -107,6 +118,7 @@ declare interface TasksResource {
   addComment(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
   deleteComment(taskId: string, commentId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
   updateComment(taskId: string, commentId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  markAllNotificationsAsRead(taskId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
 }
 
 declare class Workast {
@@ -123,6 +135,7 @@ declare class Workast {
   constructor(token: string, config?: SDKConfiguration);
 
   lists: ListsResource;
+  notifications: NotificationsResource;
   tasks: TasksResource;
 
   apiCall(options?: HTTPRequestOptions): Promise<Object> | Promise<undefined>

@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
-  TASK: '/task',
-  LIST: '/list'
+  LIST: '/list',
+  NOTIFICATION: '/notification',
+  TASK: '/task'
 };
