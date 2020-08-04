@@ -118,6 +118,7 @@ declare interface TasksResource {
   addComment(taskId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
   deleteComment(taskId: string, commentId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
   updateComment(taskId: string, commentId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  markAllNotificationsAsRead(taskId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
 }
 
 declare class Workast {

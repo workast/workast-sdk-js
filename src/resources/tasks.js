@@ -65,5 +65,8 @@ module.exports = (workast) => ({
   }),
   updateComment: generateMethod(workast, {
     method: 'PATCH', path: `${RESOURCE_PATH.TASK}/{id}/activity/{activityId}`
+  }),
+  markAllNotificationsAsRead: generateMethod(workast, {
+    method: 'POST', path: `${RESOURCE_PATH.TASK}/{id}/notification/read`
   })
 });
