@@ -820,5 +820,42 @@ describe('Workast', () => {
       expect(workast.tasks).to.be.an('object').that.has.all.keys(taskMethods);
       taskMethods.forEach((method) => expect(workast.tasks[method]).to.be.a('function'));
     });
+
+    it('Should have all the lists methods', () => {
+      const listMethods = [
+        'create',
+        'list',
+        'retrieve',
+        'update',
+        'addComment',
+        'addParticipants',
+        'archive',
+        'createAttachment',
+        'createNote',
+        'createSublist',
+        'deleteAttachment',
+        'deleteComment',
+        'deleteSublist',
+        'importTemplate',
+        'join',
+        'listActivity',
+        'listAttachments',
+        'listParticipants',
+        'listNotes',
+        'moveTasks',
+        'personal',
+        'removeParticipants',
+        'retrieveNote',
+        'unarchive',
+        'updateAttachment',
+        'updateComment',
+        'updateNote',
+        'updateSublist'
+      ];
+
+      // Check methods are exactly the expected.
+      expect(workast.lists).to.be.an('object').that.has.all.keys(listMethods);
+      listMethods.forEach((method) => expect(workast.lists[method]).to.be.a('function'));
+    });
   });
 });
