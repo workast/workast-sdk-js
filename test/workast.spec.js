@@ -770,5 +770,22 @@ describe('Workast', () => {
 
       stub.restore();
     });
+
+    it('Should have all the notification methods', () => {
+      const notificationMethods = [
+        'list',
+        'markAllAsRead',
+        'markAsRead',
+        'markAsUnread',
+        'retrieveSettings',
+        'subscribe',
+        'unsubscribe',
+        'updateSettings'
+      ];
+
+      // Check methods are exactly the expected.
+      expect(workast.notifications).to.be.an('object').that.has.all.keys(notificationMethods);
+      notificationMethods.forEach((method) => expect(workast.notifications[method]).to.be.a('function'));
+    });
   });
 });
