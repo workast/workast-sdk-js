@@ -787,5 +787,38 @@ describe('Workast', () => {
       expect(workast.notifications).to.be.an('object').that.has.all.keys(notificationMethods);
       notificationMethods.forEach((method) => expect(workast.notifications[method]).to.be.a('function'));
     });
+
+    it('Should have all the task methods', () => {
+      const taskMethods = [
+        'retrieve',
+        'update',
+        'del',
+        'create',
+        'subscribe',
+        'unsubscribe',
+        'restore',
+        'complete',
+        'reopen',
+        'assign',
+        'unassign',
+        'clone',
+        'search',
+        'addTags',
+        'removeTags',
+        'createAttachment',
+        'deleteAttachment',
+        'updateAttachment',
+        'createSubtask',
+        'listActivity',
+        'addComment',
+        'deleteComment',
+        'updateComment',
+        'markAllNotificationsAsRead'
+      ];
+
+      // Check methods are exactly the expected.
+      expect(workast.tasks).to.be.an('object').that.has.all.keys(taskMethods);
+      taskMethods.forEach((method) => expect(workast.tasks[method]).to.be.a('function'));
+    });
   });
 });
