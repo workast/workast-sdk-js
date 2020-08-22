@@ -857,5 +857,18 @@ describe('Workast', () => {
       expect(workast.lists).to.be.an('object').that.has.all.keys(listMethods);
       listMethods.forEach((method) => expect(workast.lists[method]).to.be.a('function'));
     });
+
+    it('Should have all the tag methods', () => {
+      const tagMethods = [
+        'create',
+        'del',
+        'list',
+        'update'
+      ];
+
+      // Check methods are exactly the expected.
+      expect(workast.tags).to.be.an('object').that.has.all.keys(tagMethods);
+      tagMethods.forEach((method) => expect(workast.tags[method]).to.be.a('function'));
+    });
   });
 });
