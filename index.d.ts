@@ -94,6 +94,13 @@ declare interface NotificationsResource {
   updateSettings(body: Object, options?: ResourceRequestOptions): Promise<undefined>
 }
 
+declare interface TagsResource {
+  create(body: Object, options?: ResourceRequestOptions): Promise<Object>
+  del(tagId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  list(query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  update(tagId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+}
+
 declare interface TasksResource {
   create(spaceId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
   retrieve(taskId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
@@ -136,6 +143,7 @@ declare class Workast {
 
   lists: ListsResource;
   notifications: NotificationsResource;
+  tags: TagsResource;
   tasks: TasksResource;
 
   apiCall(options?: HTTPRequestOptions): Promise<Object> | Promise<undefined>
