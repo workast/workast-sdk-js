@@ -129,9 +129,9 @@ declare interface TasksResource {
 }
 
 declare interface UsersResource {
-  me(options?: ResourceRequestOptions): Promise<Object>
+  me(query?: Object, options?: ResourceRequestOptions): Promise<Object>
   retrieve(userId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
-  invite(body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  invite(body: Object, options?: ResourceRequestOptions): Promise<undefined>
   activate(userId: string, body?: Object, options?: ResourceRequestOptions): Promise<Object>
   deactivate(userId: string, body?: Object, options?: ResourceRequestOptions): Promise<Object>
   list(query?: Object, options?: ResourceRequestOptions): Promise<Object>
