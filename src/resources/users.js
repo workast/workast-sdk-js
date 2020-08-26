@@ -16,7 +16,7 @@ module.exports = (workast) => ({
     method: 'GET', path: `${RESOURCE_PATH.USER}/me`
   }),
   invite: generateMethod(workast, {
-    method: 'POST', path: `${RESOURCE_PATH.USER}/{userId}/invite`
+    method: 'POST', path: `${RESOURCE_PATH.USER}/invite`
   }),
   activate: generateMethod(workast, {
     method: 'POST', path: `${RESOURCE_PATH.USER}/{userId}/activate`
