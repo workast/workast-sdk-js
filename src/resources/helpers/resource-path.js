@@ -3,5 +3,7 @@
 module.exports = {
   LIST: '/list',
   NOTIFICATION: '/notification',
-  TASK: '/task'
+  TAG: '/tag',
+  TASK: '/task',
+  USER: '/user'
 };

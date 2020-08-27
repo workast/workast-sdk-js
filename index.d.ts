@@ -94,6 +94,13 @@ declare interface NotificationsResource {
   updateSettings(body: Object, options?: ResourceRequestOptions): Promise<undefined>
 }
 
+declare interface TagsResource {
+  create(body: Object, options?: ResourceRequestOptions): Promise<Object>
+  del(tagId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
+  list(query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  update(tagId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+}
+
 declare interface TasksResource {
   create(spaceId: string, body: Object, options?: ResourceRequestOptions): Promise<Object>
   retrieve(taskId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
@@ -121,6 +128,16 @@ declare interface TasksResource {
   markAllNotificationsAsRead(taskId: string, body?: Object, options?: ResourceRequestOptions): Promise<undefined>
 }
 
+declare interface UsersResource {
+  me(query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  retrieve(userId: string, query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  invite(body: Object, options?: ResourceRequestOptions): Promise<undefined>
+  activate(userId: string, body?: Object, options?: ResourceRequestOptions): Promise<Object>
+  deactivate(userId: string, body?: Object, options?: ResourceRequestOptions): Promise<Object>
+  list(query?: Object, options?: ResourceRequestOptions): Promise<Object>
+  update(userId: string, body: Object, options?: ResourceRequestOptions): Promise<undefined>
+}
+
 declare class Workast {
   static DEFAULT_TIMEOUT: number;
   static DEFAULT_MAX_RETRIES: number;
@@ -136,7 +153,9 @@ declare class Workast {
 
   lists: ListsResource;
   notifications: NotificationsResource;
+  tags: TagsResource;
   tasks: TasksResource;
+  users: UsersResource;
 
   apiCall(options?: HTTPRequestOptions): Promise<Object> | Promise<undefined>
 }

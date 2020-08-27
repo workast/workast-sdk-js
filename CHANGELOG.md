@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 2.3.0 - 2020-8-27
+- [#41](https://github.com/workast/workast-sdk-js/issues/41) - Add user resource.
+- [#52](https://github.com/workast/workast-sdk-js/issues/52) - Add tests for resource generation.
+- [#55](https://github.com/workast/workast-sdk-js/issues/55) - Add tag resource.
+
 ### 2.2.0 - 2020-8-4
 - [#47](https://github.com/workast/workast-sdk-js/issues/47) - Add notification resource.
 - [#48](https://github.com/workast/workast-sdk-js/issues/48) - Add `tasks.markAllNotificationsAsRead()`.

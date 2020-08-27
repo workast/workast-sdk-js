@@ -770,5 +770,121 @@ describe('Workast', () => {
 
       stub.restore();
     });
+
+    it('Should have all the notification methods', () => {
+      const notificationMethods = [
+        'list',
+        'markAllAsRead',
+        'markAsRead',
+        'markAsUnread',
+        'retrieveSettings',
+        'subscribe',
+        'unsubscribe',
+        'updateSettings'
+      ];
+
+      // Check methods are exactly the expected.
+      expect(workast.notifications).to.be.an('object').that.has.all.keys(notificationMethods);
+      notificationMethods.forEach((method) => expect(workast.notifications[method]).to.be.a('function'));
+    });
+
+    it('Should have all the task methods', () => {
+      const taskMethods = [
+        'retrieve',
+        'update',
+        'del',
+        'create',
+        'subscribe',
+        'unsubscribe',
+        'restore',
+        'complete',
+        'reopen',
+        'assign',
+        'unassign',
+        'clone',
+        'search',
+        'addTags',
+        'removeTags',
+        'createAttachment',
+        'deleteAttachment',
+        'updateAttachment',
+        'createSubtask',
+        'listActivity',
+        'addComment',
+        'deleteComment',
+        'updateComment',
+        'markAllNotificationsAsRead'
+      ];
+
+      // Check methods are exactly the expected.
+      expect(workast.tasks).to.be.an('object').that.has.all.keys(taskMethods);
+      taskMethods.forEach((method) => expect(workast.tasks[method]).to.be.a('function'));
+    });
+
+    it('Should have all the lists methods', () => {
+      const listMethods = [
+        'create',
+        'list',
+        'retrieve',
+        'update',
+        'addComment',
+        'addParticipants',
+        'archive',
+        'createAttachment',
+        'createNote',
+        'createSublist',
+        'deleteAttachment',
+        'deleteComment',
+        'deleteSublist',
+        'importTemplate',
+        'join',
+        'listActivity',
+        'listAttachments',
+        'listParticipants',
+        'listNotes',
+        'moveTasks',
+        'personal',
+        'removeParticipants',
+        'retrieveNote',
+        'unarchive',
+        'updateAttachment',
+        'updateComment',
+        'updateNote',
+        'updateSublist'
+      ];
+
+      // Check methods are exactly the expected.
+      expect(workast.lists).to.be.an('object').that.has.all.keys(listMethods);
+      listMethods.forEach((method) => expect(workast.lists[method]).to.be.a('function'));
+    });
+
+    it('Should have all the tag methods', () => {
+      const tagMethods = [
+        'create',
+        'del',
+        'list',
+        'update'
+      ];
+
+      // Check methods are exactly the expected.
+      expect(workast.tags).to.be.an('object').that.has.all.keys(tagMethods);
+      tagMethods.forEach((method) => expect(workast.tags[method]).to.be.a('function'));
+    });
+
+    it('Should have all the user methods', () => {
+      const userMethods = [
+        'list',
+        'me',
+        'invite',
+        'deactivate',
+        'activate',
+        'retrieve',
+        'update'
+      ];
+
+      // Check methods are exactly the expected.
+      expect(workast.users).to.be.an('object').that.has.all.keys(userMethods);
+      userMethods.forEach((method) => expect(workast.users[method]).to.be.a('function'));
+    });
   });
 });
